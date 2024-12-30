@@ -36,3 +36,11 @@ def reduce_mem_usage(df, verbose=True):
         print('Mem. usage decreased to {:5.2f} Mb ({:.1f}% reduction)'.format(
             end_mem, 100 * (start_mem - end_mem) / start_mem))
     return df
+
+
+def smape(A, F):
+    tmp = 2 * np.abs(F - A) / (np.abs(A) + np.abs(F))
+    len_ = np.count_nonzero(~np.isnan(tmp))
+    if len_ == 0 and np.nansum(tmp) == 0:  # Deals with a special case
+        return 100
+    return 100 / len_ * np.nansum(tmp)

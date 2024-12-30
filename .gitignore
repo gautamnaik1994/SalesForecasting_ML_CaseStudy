@@ -122,3 +122,5 @@ cython_debug/
 
 # mlflow
 mlruns/
+
+*.pkl
