@@ -1,3 +1,27 @@
+- [Sales Forecasting](#sales-forecasting)
+  - [Introduction](#introduction)
+  - [Data](#data)
+  - [Tableau Dashboard](#tableau-dashboard)
+  - [EDA](#eda)
+  - [Hypothesis Testing](#hypothesis-testing)
+  - [Time Series Analysis](#time-series-analysis)
+  - [Prediction and Forecasting](#prediction-and-forecasting)
+    - [Machine Learning Models](#machine-learning-models)
+      - [Feature Engineering](#feature-engineering)
+      - [Metric](#metric)
+    - [Plots](#plots)
+    - [Time Series Models](#time-series-models)
+      - [Feature Engineering](#feature-engineering-1)
+      - [Metric](#metric-1)
+    - [Plots](#plots-1)
+  - [Hyperparameter Tuning](#hyperparameter-tuning)
+    - [Optuna](#optuna)
+    - [MLflow](#mlflow)
+  - [Deployment](#deployment)
+    - [FastAPI](#fastapi)
+    - [Streamlit](#streamlit)
+  - [Conclusion](#conclusion)
+
 # Sales Forecasting
 
 ## Introduction
@@ -7,6 +31,8 @@
 ## Tableau Dashboard
 
 ## EDA
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/eda/04.TimeSeriesAnalysis.ipynb?flush_cache=true)
 
 ## Hypothesis Testing
 
@@ -74,10 +100,9 @@ shows which hyperparameters are important.
 Following are some screenshots of the Optuna UI:
 
 1. Dashboard
-1. Parallel Coordinate Plot
+   ![Optuna Dashboard]("./timeline.png")
 1. Hyperparameter Importance
-1. Hyperparameter Distribution
-1. Hyperparameter Correlation
+   ![Optuna Hyperparameter Importance]("./parameter_importance.png")
 
 ### MLflow
 
@@ -90,11 +115,8 @@ experiments and models. It also helps you to reproduce the results.
 
 Following are some screenshots of the MLflow UI:
 
-1. Experiments
-1. Runs
-1. Parameters
-1. Metrics
-1. Artifacts
+1. Dashboard
+   ![MLflow Dashboard]("/mlflow.png")
 
 ## Deployment
 
