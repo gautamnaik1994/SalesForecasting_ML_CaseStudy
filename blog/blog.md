@@ -151,6 +151,13 @@ Todo: Add hypothesis testing for regional sales variability
 
 #### Feature Engineering
 
+**Lag Features**
+
+From the time series analysis above I found that there are multiple seasonality in the data. I used the 1 day lag, 7 day lag, 12 day lag and 30 day lag as features for the models.
+
+**Rolling Features**
+Along with lag I used rolling mean, rolling standard deviation for 7 days, 14 days and 30 days as features for the models.
+
 #### Metric
 
 I used Mean Absolute Error (MAE) as the evaluation metric for the models.
@@ -196,7 +203,7 @@ Optuna is a hyperparameter optimization framework that uses
 [Bayesian Optimization](https://en.wikipedia.org/wiki/Bayesian_optimization) to
 find the best hyperparameters for a model. Optuna optially saves information
 about all the trails in a local SQLite database. It also provides a web UI to
-visualize the trails. Using this web UI, we can compare diffrent trails and also
+visualize the trails. Using this web UI, we can compare different trails and also
 shows which hyperparameters are important.
 
 Following are some screenshots of the Optuna UI:
