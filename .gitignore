@@ -123,5 +123,5 @@ cython_debug/
 # mlflow
 mlruns/
 
-*.pkl
-*.parquet
+/data/**/*.pkl
+/data/**/*.parquet
