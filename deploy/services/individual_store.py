@@ -8,13 +8,19 @@ with open("models/model_lgbm.pkl", "rb") as f:
 with open("models/pipeline.pkl", "rb") as f:
     pipeline = cloudpickle.load(f)
 
+with open("models/target_encoders.pkl", "rb") as f:
+    target_encoder = cloudpickle.load(f)
 
-test_data = pd.read_parquet("data/test_data.parquet")
+
+data = pd.read_parquet("data/deploy_data.parquet")
 train_data = pd.read_parquet("data/train_data.parquet")
 
 
-last_training_date = pd.to_datetime("2019-05-31")
-first_forecast_date = pd.to_datetime("2019-06-01")
+def transform_predict(data):
+    data = data.copy()
+    data.loc[:, "Store_id_enc"] = target_encoder.transform(data[["Store_id"]])
+    data = pipeline.transform(data)
+    return lgbm.predict(data.reshape(1, -1))[0]
 
 
 def build_future_dataframe(Store_id=1, days=30, train_data=train_data, test_data=test_data, date=first_forecast_date):

@@ -12,7 +12,7 @@ store_id = st.number_input("Store ID", min_value=1, max_value=365, value=3)
 
 if st.button("Forecast"):
 
-    forecast_data = forecast(Store_id=store_id, days=31)
+    forecast_data = forecast(Store_id=store_id, days=60)
     print(forecast_data)
     st.dataframe(forecast_data)
     forecast_data.index = forecast_data["Date"]
