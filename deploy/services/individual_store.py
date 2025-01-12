@@ -2,17 +2,17 @@ import pandas as pd
 import numpy as np
 import cloudpickle
 
-with open("models/model_lgbm.pkl", "rb") as f:
+with open("deploy/models/model_lgbm.pkl", "rb") as f:
     lgbm = cloudpickle.load(f)
 
-with open("models/pipeline.pkl", "rb") as f:
+with open("deploy/models/pipeline.pkl", "rb") as f:
     pipeline = cloudpickle.load(f)
 
-with open("models/target_encoder.pkl", "rb") as f:
+with open("deploy/models/target_encoder.pkl", "rb") as f:
     target_encoder = cloudpickle.load(f)
 
-train_data = pd.read_parquet("data/train_data.parquet")
-deploy_data = pd.read_parquet("data/deploy_data.parquet")
+train_data = pd.read_parquet("deploy/data/train_data.parquet")
+deploy_data = pd.read_parquet("deploy/data/deploy_data.parquet")
 
 
 def transform_predict(data):

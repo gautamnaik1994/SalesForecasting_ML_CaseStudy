@@ -6,7 +6,7 @@ import pandas as pd
 st.set_page_config(layout="wide")
 st.title("Individual Store Forecasting")
 st.image("https://source.unsplash.com/random/800x400")
-train_data = pd.read_parquet("data/train_data.parquet")
+train_data = pd.read_parquet("deploy/data/train_data.parquet")
 
 with st.form(key='forecast_form', border=False):
     col1, col2 = st.columns([3, 1], vertical_alignment="bottom")
