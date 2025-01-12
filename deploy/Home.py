@@ -3,6 +3,8 @@ import pandas as pd
 import joblib
 import os
 
+st.set_page_config(layout="wide")
+
 # Set up the page header title
 st.title("My Streamlit App")
 

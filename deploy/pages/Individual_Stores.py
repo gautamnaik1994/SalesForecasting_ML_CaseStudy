@@ -1,21 +1,60 @@
 import streamlit as st
 from services.individual_store import forecast
 import plotly.express as px
+import pandas as pd
 
+st.set_page_config(layout="wide")
+st.title("Individual Store Forecasting")
+st.image("https://source.unsplash.com/random/800x400")
+train_data = pd.read_parquet("data/train_data.parquet")
 
-# Page title
-st.title("Individual Stores")
-st.image("https://www.streamlit.io/images/brand/streamlit-mark-color.png", width=200)
+with st.form(key='forecast_form', border=False):
+    col1, col2 = st.columns([3, 1], vertical_alignment="bottom")
 
-# Store selection
-store_id = st.number_input("Store ID", min_value=1, max_value=365, value=3)
+    with col1:
+        store_id = st.number_input(
+            "Select a Store ID between 1 to 365", min_value=1, max_value=365, value=3)
 
-if st.button("Forecast"):
+    with col2:
+        forecast_btn = st.form_submit_button(
+            "Forecast", use_container_width=True, type="primary")
 
-    forecast_data = forecast(Store_id=store_id, days=60)
-    print(forecast_data)
-    st.dataframe(forecast_data)
+if forecast_btn:
+    forecast_data = forecast(Store_id=store_id, train_data=train_data, days=60)
     forecast_data.index = forecast_data["Date"]
     fig = px.line(forecast_data, x=forecast_data.index, y="Sales",
-                  color="predicted", title=f"Sales Forecast for Store {store_id}")
+
+                  color="Forecasted",
+                  color_discrete_map={
+                      "No": "#03a9f4",  # Pastel Blue
+                      "Yes": "#4caf50"   # Pastel Orange
+                  })
+    fig.update_xaxes(title_text="Date")
+    fig.update_xaxes(rangeslider_visible=True)
+    fig.update_layout(
+        height=600,
+        title={
+            'text': f"Sales Forecast for Store {store_id}",
+            'font': {
+                'size': 24  # Increase the font size as needed
+            }
+        }
+    )
     st.plotly_chart(fig)
+
+st.subheader("Technical Details")
+
+details = """
+- **Model Used**: LightGBM
+- **Forecasting Method**: Recursive Forecasting
+  This method uses the last 30 days of sales data to forecast the next day's
+  sales. The forecasted sales are then used to forecast the next day's sales.
+- **Feature Engineering**
+  - Target Encoding: Store_id
+  - Lag Features: Sales
+  - Rolling Window Features: Sales
+  
+
+"""
+
+st.markdown(details)
