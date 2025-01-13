@@ -37,7 +37,6 @@
     - [Optuna](#optuna)
     - [MLflow](#mlflow)
   - [Deployment](#deployment)
-    - [FastAPI](#fastapi)
     - [Streamlit](#streamlit)
   - [Conclusion](#conclusion)
 
