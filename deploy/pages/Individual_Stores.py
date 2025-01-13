@@ -26,7 +26,7 @@ if forecast_btn:
         forecast_data.index = forecast_data["Date"]
         fig = px.line(forecast_data, x=forecast_data.index, y="Sales",
 
-                      color="Forecasted",
+                      color="Type",
                       color_discrete_map={
                           "No": "#03a9f4",
                           "Yes": "#4caf50"
@@ -38,7 +38,7 @@ if forecast_btn:
             title={
                 'text': f"Sales Forecast for Store {store_id}",
                 'font': {
-                    'size': 24  # Increase the font size as needed
+                    'size': 24
                 }
             }
         )
