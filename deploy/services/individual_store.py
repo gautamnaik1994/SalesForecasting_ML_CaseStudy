@@ -22,10 +22,10 @@ def transform_predict(data):
     return lgbm.predict(data.reshape(1, -1))[0]
 
 
-def forecast(Store_id, train_data=train_data, days=60):
+def forecast(Store_id, days=60):
     forecast_df = deploy_data[deploy_data["Store_id"] == Store_id]
-    train_data = train_data[train_data["Store_id"] == Store_id][["Date",
-                                                                 "Sales", "Store_id"]]
+    train_data_slice = train_data[train_data["Store_id"] == Store_id][["Date",
+                                                                       "Sales", "Store_id"]]
     editable_data = forecast_df.copy()
     predictions = []
 
@@ -42,6 +42,6 @@ def forecast(Store_id, train_data=train_data, days=60):
         prediction_df = pd.DataFrame(predictions)
         prediction_df["Store_id"] = Store_id
         prediction_df["Forecasted"] = "Yes"
-        train_data["Forecasted"] = "No"
+        train_data_slice["Forecasted"] = "No"
 
-    return pd.concat([train_data, prediction_df], axis=0)
+    return pd.concat([train_data_slice, prediction_df], axis=0)

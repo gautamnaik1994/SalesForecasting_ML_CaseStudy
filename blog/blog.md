@@ -47,23 +47,23 @@ In the competitive retail industry, the ability to predict future sales accurate
 
 Effective sales forecasting is fundamental for multiple aspects of retail management and operation, including:
 
-1. Inventory Management: Accurate sales forecasts help ensure that stores maintain optimal inventory levels—enough to meet customer demand without overstocking, which can lead to increased costs or waste, especially in the case of perishable goods.  
-2. Financial Planning: Forecasting sales allows businesses to estimate future revenue and manage budgets more effectively. This is crucial for allocating resources to areas such as marketing, staffing, and capital investments.  
-3. Marketing and Promotions: Understanding when sales peaks and troughs are likely to occur enables retailers to plan effective marketing campaigns and promotional offers to boost revenue or manage customer flow.  
-4. Supply Chain Optimization: Sales forecasts inform production schedules, logistics, and distribution plans, ensuring that products are available where and when they are needed, thereby reducing transportation and storage costs.  
+1. Inventory Management: Accurate sales forecasts help ensure that stores maintain optimal inventory levels—enough to meet customer demand without overstocking, which can lead to increased costs or waste, especially in the case of perishable goods.
+2. Financial Planning: Forecasting sales allows businesses to estimate future revenue and manage budgets more effectively. This is crucial for allocating resources to areas such as marketing, staffing, and capital investments.
+3. Marketing and Promotions: Understanding when sales peaks and troughs are likely to occur enables retailers to plan effective marketing campaigns and promotional offers to boost revenue or manage customer flow.
+4. Supply Chain Optimization: Sales forecasts inform production schedules, logistics, and distribution plans, ensuring that products are available where and when they are needed, thereby reducing transportation and storage costs.
 5. Strategic Decision Making: Long-term sales forecasting supports broader business strategies, including store expansions, market entry, and other capital expenditures.
 
 ## Data
 
-1. ID: Unique identifier for each record in the dataset.  
-2. Store\_id: Unique identifier for each store.  
-3. Store\_Type: Categorization of the store based on its type.  
-4. Location\_Type: Classification of the store's location (e.g., urban, suburban).  
-5. Region\_Code: Code representing the geographical region where the store is located.  
-6. Date: The specific date on which the data was recorded.  
-7. Holiday: Indicator of whether the date was a holiday (1: Yes, 0: No).  
-8. Discount: Indicates whether a discount was offered on the given date (Yes/No).  
-9. Orders: The number of orders received by the store on the specified day.  
+1. ID: Unique identifier for each record in the dataset.
+2. Store_id: Unique identifier for each store.
+3. Store_Type: Categorization of the store based on its type.
+4. Location_Type: Classification of the store's location (e.g., urban, suburban).
+5. Region_Code: Code representing the geographical region where the store is located.
+6. Date: The specific date on which the data was recorded.
+7. Holiday: Indicator of whether the date was a holiday (1: Yes, 0: No).
+8. Discount: Indicates whether a discount was offered on the given date (Yes/No).
+9. Orders: The number of orders received by the store on the specified day.
 10. Sales: Total sales amount for the store on the given day.
 
 ## Tableau Dashboard
@@ -96,7 +96,7 @@ Effective sales forecasting is fundamental for multiple aspects of retail manage
 
 Hypothesis: Stores offering discounts will have significantly higher sales than stores not offering discounts
 
-- **Null Hypothesis:**  Stores offering discounts will have the same sales as stores not offering discounts
+- **Null Hypothesis:** Stores offering discounts will have the same sales as stores not offering discounts
 - **Alternative Hypothesis:** Stores offering discounts will have significantly higher sales than stores not offering discounts
 
 Since p value is 0, it means we can reject the null hypothesis and accept the alternative hypothesis. This means that stores offering discounts will have significantly higher sales than stores not offering discounts.
@@ -105,7 +105,7 @@ Since p value is 0, it means we can reject the null hypothesis and accept the al
 
 Hypothesis: Sales on holidays are higher compared to non-holidays
 
-- **Null Hypothesis:**  Sales on holidays are the same as sales on non-holidays
+- **Null Hypothesis:** Sales on holidays are the same as sales on non-holidays
 - **Alternative Hypothesis:** Sales on holidays are higher compared to non-holidays
 
 Since p value is 1, we fail to reject the null hypothesis. This means that sales on holidays are the same as sales on non-holidays.
@@ -114,7 +114,7 @@ Since p value is 1, we fail to reject the null hypothesis. This means that sales
 
 Hypothesis: Different store types experience different sales volumes
 
-- **Null Hypothesis:**  Different store types experience the same sales volumes
+- **Null Hypothesis:** Different store types experience the same sales volumes
 - **Alternative Hypothesis:** Different store types experience different sales volumes
 
 Since p value is 0, we can reject the null hypothesis and accept the alternative hypothesis. This means that different store types experience different sales volumes.
@@ -176,8 +176,34 @@ Todo: Add hypothesis testing for regional sales variability
 
 From the time series analysis above I found that there are multiple seasonality in the data. I used the 1 day lag, 7 day lag, 12 day lag and 30 day lag as features for the models.
 
-**Rolling Features**
-Along with lag I used rolling mean, rolling standard deviation for 7 days, 14 days and 30 days as features for the models.
+Using all above lag values, I derived the following features:
+
+1. Sales lag for each lag value
+1. Rolling mean of Sales for each lag value
+1. Rolling standard deviation of Sales for each lag value
+1. Minimum and Maximum Sales in each lag period
+1. Expanding weighted mean of Sales from the start of the data till the last available date
+1. Expanding weighted standard deviation of Sales from the start of the data till the last available date
+1. Expanding weighted sum of Sales from the start of the data till the last available date
+
+**Date Features**
+
+1. Day of the week
+1. Day of the month
+1. Week of the month
+1. Month
+1. Quarter
+1. Is Weekend
+
+Since above date features are cylical in nature, I used sin and cos
+transformation to convert them into linear features. Doing this helps the model
+to understand the cyclical nature of the features.
+for eg.
+
+```python
+  df['Day_sin'] = np.sin(2 * np.pi * df['Day']/31)
+  df['Day_cos'] = np.cos(2 * np.pi * df['Day']/31)
+```
 
 #### Metric
 
@@ -250,8 +276,8 @@ Following are some screenshots of the MLflow UI:
 
 ## Deployment
 
-### FastAPI
-
 ### Streamlit
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sales-forecasting-gn.streamlit.app/)
 
 ## Conclusion

@@ -20,27 +20,29 @@ with st.form(key='forecast_form', border=False):
             "Forecast", use_container_width=True, type="primary")
 
 if forecast_btn:
-    forecast_data = forecast(Store_id=store_id, train_data=train_data, days=60)
-    forecast_data.index = forecast_data["Date"]
-    fig = px.line(forecast_data, x=forecast_data.index, y="Sales",
+    with st.spinner("Forecasting Sales..."):
+        forecast_data = forecast(
+            Store_id=store_id, days=60)
+        forecast_data.index = forecast_data["Date"]
+        fig = px.line(forecast_data, x=forecast_data.index, y="Sales",
 
-                  color="Forecasted",
-                  color_discrete_map={
-                      "No": "#03a9f4",  # Pastel Blue
-                      "Yes": "#4caf50"   # Pastel Orange
-                  })
-    fig.update_xaxes(title_text="Date")
-    fig.update_xaxes(rangeslider_visible=True)
-    fig.update_layout(
-        height=600,
-        title={
-            'text': f"Sales Forecast for Store {store_id}",
-            'font': {
-                'size': 24  # Increase the font size as needed
+                      color="Forecasted",
+                      color_discrete_map={
+                          "No": "#03a9f4",
+                          "Yes": "#4caf50"
+                      })
+        fig.update_xaxes(title_text="Date")
+        fig.update_xaxes(rangeslider_visible=True)
+        fig.update_layout(
+            height=600,
+            title={
+                'text': f"Sales Forecast for Store {store_id}",
+                'font': {
+                    'size': 24  # Increase the font size as needed
+                }
             }
-        }
-    )
-    st.plotly_chart(fig)
+        )
+        st.plotly_chart(fig)
 
 st.subheader("Technical Details")
 
@@ -53,7 +55,6 @@ details = """
   - Target Encoding: Store_id
   - Lag Features: Sales
   - Rolling Window Features: Sales
-  
 
 """
 
