@@ -277,6 +277,8 @@ Following are some screenshots of the MLflow UI:
 
 ### Streamlit
 
+TODO: Add pipeline architecture diagram
+
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sales-forecasting-gn.streamlit.app/)
 
 ## Conclusion
