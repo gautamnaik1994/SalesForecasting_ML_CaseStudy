@@ -28,8 +28,8 @@ if forecast_btn:
 
                       color="Type",
                       color_discrete_map={
-                          "No": "#03a9f4",
-                          "Yes": "#4caf50"
+                          "Current": "#03a9f4",
+                          "Forecasted": "#4caf50"
                       })
         fig.update_xaxes(title_text="Date")
         fig.update_xaxes(rangeslider_visible=True)
