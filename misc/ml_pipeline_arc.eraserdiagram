@@ -1,0 +1,42 @@
+flowchart-diagram
+
+title Machine Learning Prediction Pipeline
+direction bottom
+typeface clean
+
+Data Prep ML[color: lightblue, icon: database] {
+  Lag Features [icon: clock]
+  Rolling Features [icon: refresh-cw]
+  Categorical Encoder [icon: list]
+  Target Encoder [icon: target]
+  Standard Scaling [icon: sliders]
+  Cyclical Features [icon: clock]
+
+}
+
+Data Prep Econometric [color: yellow, icon: database] {
+  Rename Columns [icon: clock]
+}
+
+Prediction [color: lightgreen, icon: cpu] {
+  LightGBM Algo [icon: zap]
+  Facebook Prophet [icon: zap]
+}
+
+Prediction Technique [color: lightcoral, icon: bar-chart-2] {
+   Recursive Forecasting [icon: zap]
+   Batch Forecasting [icon: zap]
+}
+
+Live Data [shape: oval, icon: data] > Data Prep ML
+Live Data [shape: oval, icon: data] > Data Prep Econometric
+Lag Features > Standard Scaling
+Rolling Features > Standard Scaling
+Categorical Encoder > Standard Scaling
+Cyclical Features > Standard Scaling
+Target Encoder > Standard Scaling
+Data Prep ML > LightGBM Algo
+Facebook Prophet > Batch Forecasting
+LightGBM Algo > Recursive Forecasting
+Data Prep Econometric > Facebook Prophet
+Prediction Technique > Output [shape: oval, icon: stop-circle]

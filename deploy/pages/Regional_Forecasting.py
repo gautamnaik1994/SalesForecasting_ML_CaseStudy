@@ -5,9 +5,9 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 st.title("Individual Regions Forecasting")
-st.image("https://source.unsplash.com/random/800x400")
-
-with st.form(key='forecast_form', border=False):
+st.image("./deploy/img/sales-forecasting.svg", use_container_width=True)
+st.markdown("###")
+with st.form(key='forecast_form', border=True):
     col1, col2 = st.columns([3, 1], vertical_alignment="bottom")
 
     with col1:
@@ -44,12 +44,46 @@ if forecast_btn:
             }
         )
         st.plotly_chart(fig)
+        st.divider()
 
 st.subheader("Technical Details")
 
 details = """
 - **Model Used**: Prophet
 - **Forecasting Method**: Batch Forecasting
+- **Regressors**
+    - Holidays
 """
 
 st.markdown(details)
+st.divider()
+st.subheader("Try Other Forecasting Types")
+
+st.markdown(
+    """
+<style>
+button[kind="secondary"] {
+    min-height: 3rem!important;
+}
+button[kind="secondary"] p {
+    font-size: 1.1rem;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+
+col1, col2, col3 = st.columns([1, 1, 1])
+
+with col1:
+    if st.button("Home", use_container_width=True, icon=":material/home:", type="secondary"):
+        st.switch_page("Home.py")
+
+with col2:
+    if st.button("Global Forecasting",  use_container_width=True, icon=":material/language:",  type="secondary"):
+        st.switch_page("pages/Global_Forecasting.py")
+
+with col3:
+    if st.button("Store Forecasting",  use_container_width=True, icon=":material/store:",  type="secondary"):
+        st.switch_page("pages/Store_Forecasting.py")

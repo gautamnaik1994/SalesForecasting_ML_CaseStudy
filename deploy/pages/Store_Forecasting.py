@@ -5,10 +5,10 @@ import pandas as pd
 
 st.set_page_config(layout="wide")
 st.title("Individual Store Forecasting")
-st.image("https://source.unsplash.com/random/800x400")
+st.image("./deploy/img/sales-forecasting.svg", use_container_width=True)
 # train_data = pd.read_parquet("deploy/data/train_data.parquet")
-
-with st.form(key='forecast_form', border=False):
+st.markdown("###")
+with st.form(key='forecast_form', border=True):
     col1, col2 = st.columns([3, 1], vertical_alignment="bottom")
 
     with col1:
@@ -43,6 +43,8 @@ if forecast_btn:
             }
         )
         st.plotly_chart(fig)
+        st.divider()
+
 
 st.subheader("Technical Details")
 
@@ -53,9 +55,42 @@ details = """
   sales. The forecasted sales are then used to forecast the next day's sales.
 - **Feature Engineering**
   - Target Encoding: Store_id
-  - Lag Features: Sales
-  - Rolling Window Features: Sales
-
+  - Lag Features: 1, 7, 12, 30 days lag features
+  - Rolling Window Features: 7, 12, 30 days exponential weighted moving average, standard deviation, min, max values
+  - Date Features: Cyclical Day, Week, Month, Quarter features
+  - Other Features: Is_Holiday, Is_Weekend
 """
 
 st.markdown(details)
+st.divider()
+st.subheader("Try Other Forecasting Types")
+
+
+st.markdown(
+    """
+<style>
+button[kind="secondary"] {
+    min-height: 3rem!important;
+}
+button[kind="secondary"] p {
+    font-size: 1.1rem;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+
+col1, col2, col3 = st.columns([1, 1, 1])
+
+with col1:
+    if st.button("Regional Forecasting",  use_container_width=True, icon=":material/group_work:",  type="secondary"):
+        st.switch_page("pages/Regional_Forecasting.py")
+
+with col2:
+    if st.button("Global Forecasting",  use_container_width=True, icon=":material/language:",  type="secondary"):
+        st.switch_page("pages/Global_Forecasting.py")
+
+with col3:
+    if st.button("Home", use_container_width=True, icon=":material/home:", type="secondary"):
+        st.switch_page("Home.py")

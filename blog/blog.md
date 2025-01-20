@@ -1,5 +1,7 @@
 # Sales Forecasting Case Study
 
+![Banner](./sales-forecasting.png)
+
 - [Sales Forecasting Case Study](#sales-forecasting-case-study)
   - [Introduction](#introduction)
   - [Data](#data)
@@ -26,8 +28,9 @@
       - [Monthly Seasonality](#monthly-seasonality)
   - [Prediction and Forecasting](#prediction-and-forecasting)
     - [Machine Learning Models](#machine-learning-models)
-      - [Feature Engineering](#feature-engineering)
+      - [Forecasting Techniques](#forecasting-techniques)
       - [Metric](#metric)
+      - [Feature Engineering](#feature-engineering)
     - [Plots](#plots)
     - [Time Series Models](#time-series-models)
       - [Feature Engineering](#feature-engineering-1)
@@ -66,6 +69,16 @@ Effective sales forecasting is fundamental for multiple aspects of retail manage
 10. Sales: Total sales amount for the store on the given day.
 
 ## Tableau Dashboard
+
+**Planning Tableau Dashboard**
+
+![Planning Tableau Dashboard](./Sales%20Forecasting%20Tableau-Visuallization.png)
+
+[![Tableau](https://img.shields.io/badge/View%20on-Tableau-blue?logo=tableau)](https://public.tableau.com/views/SalesForecasting_17373524705280/SalesForecasting?:showVizHome=no&:embed=true)
+
+**Following is the embedded dashboard from Tableau**
+
+<iframe src="https://public.tableau.com/views/SalesForecasting_17373524705280/SalesForecasting?:showVizHome=no&:embed=true" frameborder="0"  height="800" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" className="blog-wide-section"></iframe>
 
 ## EDA
 
@@ -134,6 +147,10 @@ Todo: Add hypothesis testing for regional sales variability
 
 ### Seasonality
 
+As with any sales data, multiple seasonal patterns are evident. Most
+The most important seasonal pattern is weekly seasonality. Weekends tend to have higher sales as compared
+to other days. The following plots showcase the different seasonal patterns present in the data.
+
 #### Day of Week Seasonality
 
 ![Day of Week Seasonality](image-1.png)
@@ -158,22 +175,54 @@ Todo: Add hypothesis testing for regional sales variability
 
 ![Monthly Seasonality](image-2.png)
 
-- The sales is highest during the month of May July, December and January
+- Sales are highest during the months of May, July, December, and January
 
 ## Prediction and Forecasting
 
+Every business needs to plan ahead. Knowing what will happen in the future is key to a successful business. Up until now, we have been looking at past sales data for insights. We will leverage this information to predict future sales using different Machine Learning algorithms. Most time series forecasting has been done using statistical/econometric algorithms. These models work perfectly fine when the dataset has fixed patterns but fail to capture complex patterns and scenarios. That is why we will be using tree-based machine learning algorithms to predict each store's sales. We will also use statistical time series models to forecast larger region-level and global-level sales.
+
+In the following sections, I will delve deeper into each technique.
+
 ### Machine Learning Models
+
+When using ML algorithms, we cannot directly use the time series data. All ML algorithms accept training data of shape n rows with m columns and target data with n rows and 1 column. There are certain algorithms that accept target data with multiple columns.
+
+At a bare minimum, we have to use today's data as training data and tomorrow's data as the target variable.
+
+To properly capture the patterns, we will be using the previous 30 days of data. We will go into detail about this in the upcoming Feature Engineering section.
+
+During my experiments I tried the following algorithms.
 
 1. Linear Regression
 1. Random Forest
 1. XGBoost
 1. LightGBM
 
+Out of all above algorithms, LightGBM has the lowest MAE and least inference
+time.
+
+#### Forecasting Techniques
+
+**Multi-step Forecasting**
+In this technique, we will use the previous 30 days data to predict the next 7
+days data. This is a more complex technique and requires more feature engineering.
+As a future scope, I will be implementing this technique.
+
+**Recursive Multi-step Forecasting**
+Since this algorithms require previous 30 days data to predict next day data,
+Our ML model will be able to predict only 1 day in future. To predict more than
+1 day in future, we will have to use the predicted value as input for the next
+day.
+
+#### Metric
+
+I used Mean Absolute Error (MAE) as the evaluation metric for the models.
+
 #### Feature Engineering
 
 **Lag Features**
 
-From the time series analysis above I found that there are multiple seasonality in the data. I used the 1 day lag, 7 day lag, 12 day lag and 30 day lag as features for the models.
+From the time series analysis above I found that there are multiple seasonalities in the data. I used the 1 day lag, 7 day lag, 12 day lag and 30 day lag as features for the models.
 
 Using all above lag values, I derived the following features:
 
@@ -194,7 +243,7 @@ Using all above lag values, I derived the following features:
 1. Quarter
 1. Is Weekend
 
-Since above date features are cylical in nature, I used sin and cos
+Since above date features are cyclical in nature, I used sin and cos
 transformation to convert them into linear features. Doing this helps the model
 to understand the cyclical nature of the features.
 for eg.
@@ -203,10 +252,6 @@ for eg.
   df['Day_sin'] = np.sin(2 * np.pi * df['Day']/31)
   df['Day_cos'] = np.cos(2 * np.pi * df['Day']/31)
 ```
-
-#### Metric
-
-I used Mean Absolute Error (MAE) as the evaluation metric for the models.
 
 ### Plots
 
