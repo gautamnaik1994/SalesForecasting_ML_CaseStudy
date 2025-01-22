@@ -8,11 +8,18 @@
   - [Tableau Dashboard](#tableau-dashboard)
   - [EDA](#eda)
     - [Uni-variate Analysis](#uni-variate-analysis)
+      - [Order Count Distribution](#order-count-distribution)
+      - [Sales Distribution](#sales-distribution)
+      - [Top stores by Sales](#top-stores-by-sales)
+      - [Stores in Each Region](#stores-in-each-region)
     - [Bi-variate Analysis](#bi-variate-analysis)
       - [Regions by Sales and Orders](#regions-by-sales-and-orders)
       - [Store by Sales and Orders](#store-by-sales-and-orders)
       - [Location by Sales and Orders](#location-by-sales-and-orders)
     - [Multi-variate Analysis](#multi-variate-analysis)
+      - [Sales vs Orders by Store Type](#sales-vs-orders-by-store-type)
+      - [Sales vs Orders by Location Type](#sales-vs-orders-by-location-type)
+      - [Sales vs Orders by Region](#sales-vs-orders-by-region)
   - [Hypothesis Testing](#hypothesis-testing)
     - [Impact of Discounts on Sales](#impact-of-discounts-on-sales)
     - [Effect of Holidays on Sales](#effect-of-holidays-on-sales)
@@ -50,10 +57,10 @@ In the competitive retail industry, the ability to predict future sales accurate
 Effective sales forecasting is fundamental for multiple aspects of retail management and operation, including:
 
 1. Inventory Management: Accurate sales forecasts help ensure that stores maintain optimal inventory levels—enough to meet customer demand without overstocking, which can lead to increased costs or waste, especially in the case of perishable goods.
-2. Financial Planning: Forecasting sales allows businesses to estimate future revenue and manage budgets more effectively. This is crucial for allocating resources to areas such as marketing, staffing, and capital investments.
-3. Marketing and Promotions: Understanding when sales peaks and troughs are likely to occur enables retailers to plan effective marketing campaigns and promotional offers to boost revenue or manage customer flow.
-4. Supply Chain Optimization: Sales forecasts inform production schedules, logistics, and distribution plans, ensuring that products are available where and when they are needed, thereby reducing transportation and storage costs.
-5. Strategic Decision Making: Long-term sales forecasting supports broader business strategies, including store expansions, market entry, and other capital expenditures.
+1. Financial Planning: Forecasting sales allows businesses to estimate future revenue and manage budgets more effectively. This is crucial for allocating resources to areas such as marketing, staffing, and capital investments.
+1. Marketing and Promotions: Understanding when sales peaks and troughs are likely to occur enables retailers to plan effective marketing campaigns and promotional offers to boost revenue or manage customer flow.
+1. Supply Chain Optimization: Sales forecasts inform production schedules, logistics, and distribution plans, ensuring that products are available where and when they are needed, thereby reducing transportation and storage costs.
+1. Strategic Decision Making: Long-term sales forecasting supports broader business strategies, including store expansions, market entry, and other capital expenditures.
 
 ## Data
 
@@ -72,35 +79,110 @@ Effective sales forecasting is fundamental for multiple aspects of retail manage
 
 **Planning Tableau Dashboard**
 
-![Planning Tableau Dashboard](./Sales%20Forecasting%20Tableau-Visuallization.png)
+![Planning Tableau Dashboard](./tableau-skeleton.png)
 
 [![Tableau](https://img.shields.io/badge/View%20on-Tableau-blue?logo=tableau)](https://public.tableau.com/views/SalesForecasting_17373524705280/SalesForecasting?:showVizHome=no&:embed=true)
 
-**Following is the embedded dashboard from Tableau**
+**Following is the embedded dashboard**
 
-<iframe src="https://public.tableau.com/views/SalesForecasting_17373524705280/SalesForecasting?:showVizHome=no&:embed=true" frameborder="0"  height="800" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" className="blog-wide-section"></iframe>
+<iframe src="https://public.tableau.com/views/SalesForecasting_17373524705280/SalesForecasting?:showVizHome=no&:embed=true" frameborder="0"  height="900" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" className="blog-wide-section"></iframe>
 
 ## EDA
 
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/eda/04.TimeSeriesAnalysis.ipynb?flush_cache=true)
+EDA is an essential step in the data analysis process. It helps us understand the data, identify patterns, relationships, and anomalies, and generate insights that can inform further analysis and modeling. In this section, I will explore the sales data to gain a better understanding of the underlying patterns and trends.
+
+If you feel adventurous, you can view the EDA notebook by clicking the badge below.
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/eda/02.EDA.ipynb?flush_cache=true)
 
 ### Uni-variate Analysis
+
+#### Order Count Distribution
+
+![Order Count Distribution](image-8.png)
+
+**Observations:**
+
+- We can see that most of the order count for each store is around 50 - 80
+
+#### Sales Distribution
+
+![Sales Distribution](image-9.png)
+
+**Observations:**
+
+- We can see that most of the sales are around 50000
+
+#### Top stores by Sales
+
+![Top Stores](image-10.png)
+
+**Observations:**
+
+- From above plot we can see that Store 175 has highest number of sales
+
+#### Stores in Each Region
+
+![Store Count](image-11.png)
+
+**Observations:**
+
+- There are 124 stores in R1 region, 105 in R2, 86 in R3 and 50 stores in R4 region
 
 ### Bi-variate Analysis
 
 #### Regions by Sales and Orders
 
-![Regions](image-5.png)
+![Sales by Region](image-5.png)
+
+**Observations:**
+
+- We can see that Region R1 has the highest number of sales and orders
+- Region R4 has the lowest number of sales and orders
 
 #### Store by Sales and Orders
 
 ![Store by sales and order](image-6.png)
 
+**Observations:**
+
+- We can see that Store type S1 has the highest number of sales and orders
+- Store type S2 has the lowest number of sales and orders
+
 #### Location by Sales and Orders
 
 ![LOcation by sales and order](image-7.png)
 
+**Observations:**
+
+- We can see that Location type L1 has the highest number of sales and orders.
+- Location type L4 has the lowest number of sales and orders.
+
 ### Multi-variate Analysis
+
+#### Sales vs Orders by Store Type
+
+![Sales vs Orders by Store Type](./salesvsorders_stores.png)
+
+**Observations:**
+
+- From above plot we can see clear distribution of sales and orders by store for each Store type
+
+#### Sales vs Orders by Location Type
+
+![Sales vs Orders by Location Type](./salesvsorders_location.png)
+
+**Observations:**
+
+- From above plot we can see clear distribution of sales and orders by store for each Location type
+
+#### Sales vs Orders by Region
+
+![Sales vs Orders by Region](./salesvsorders_region.png)
+
+**Observations:**
+
+- From above plot we can see there is no clear distribution of sales and orders by store for each Region
 
 ## Hypothesis Testing
 
@@ -133,7 +215,19 @@ Since p value is 0, we can reject the null hypothesis and accept the alternative
 
 ### Regional Sales Variability
 
-Todo: Add hypothesis testing for regional sales variability
+Hypothesis: Different regions experience different sales volumes
+
+- **Null Hypothesis:**  Different regions experience the same sales volumes
+- **Alternative Hypothesis:** Different regions experience different sales volumes
+
+![normality check](image-12.png)
+
+**Observations:**
+
+- From above shapiro test and qq plot we can say that the data is not normally distributed
+- We will be using Kruskal-Wallis test to check if the sales volumes are different across different regions
+
+Since p value for kruskal test is 0, we reject the null hypothesis and conclude that different regions experience different sales volumes.
 
 ### Correlation between Number of Orders and Sales
 
@@ -147,9 +241,7 @@ Todo: Add hypothesis testing for regional sales variability
 
 ### Seasonality
 
-As with any sales data, multiple seasonal patterns are evident. Most
-The most important seasonal pattern is weekly seasonality. Weekends tend to have higher sales as compared
-to other days. The following plots showcase the different seasonal patterns present in the data.
+As with any sales data, multiple seasonal patterns are evident. The most important seasonal pattern is weekly seasonality. Weekends tend to have higher sales as compared to other days. The following plots showcase the different seasonal patterns present in the data.
 
 #### Day of Week Seasonality
 
@@ -299,10 +391,11 @@ shows which hyperparameters are important.
 
 Following are some screenshots of the Optuna UI:
 
-1. Dashboard
-   ![Optuna Dashboard](./timeline.png)
-1. Hyperparameter Importance
-   ![Optuna Hyperparameter Importance](./parameter_importance.png)
+![Optuna Dashboard](./timeline.png)
+<p class="text-center">Optuna Dashboard</p>
+
+![Optuna Hyperparameter Importance](./parameter_importance.png)
+<p class="text-center">Hyperparameter Importance</p>
 
 ### MLflow
 
@@ -315,8 +408,8 @@ experiments and models. It also helps you to reproduce the results.
 
 Following are some screenshots of the MLflow UI:
 
-1. Dashboard
-   ![MLflow Dashboard](./mlflow.png)
+![MLflow Dashboard](./mlflow.png)
+<p class="text-center">Dashboard</p>
 
 ## Deployment
 
