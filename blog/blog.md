@@ -23,7 +23,7 @@
   - [Hypothesis Testing](#hypothesis-testing)
     - [Impact of Discounts on Sales](#impact-of-discounts-on-sales)
     - [Effect of Holidays on Sales](#effect-of-holidays-on-sales)
-    - [Sales Differences Across Store](#sales-differences-across-store)
+    - [Sales Differences Across Store Types](#sales-differences-across-store-types)
     - [Regional Sales Variability](#regional-sales-variability)
     - [Correlation between Number of Orders and Sales](#correlation-between-number-of-orders-and-sales)
   - [Time Series Analysis](#time-series-analysis)
@@ -186,58 +186,80 @@ If you feel adventurous, you can view the EDA notebook by clicking the badge bel
 
 ## Hypothesis Testing
 
+Hypothesis testing is a statistical method used to make inferences about a population based on sample data. It involves formulating a null hypothesis (H0) and an alternative hypothesis (H1) and using statistical tests to determine whether the sample data provide enough evidence to reject the null hypothesis in favor of the alternative hypothesis. In this section, I will test several hypotheses related to the sales data to determine whether certain factors have a significant impact on sales.
+
 ### Impact of Discounts on Sales
 
-Hypothesis: Stores offering discounts will have significantly higher sales than stores not offering discounts
+**Hypothesis:** Stores offering discounts will have significantly higher sales than stores not offering discounts.
 
-- **Null Hypothesis:** Stores offering discounts will have the same sales as stores not offering discounts
-- **Alternative Hypothesis:** Stores offering discounts will have significantly higher sales than stores not offering discounts
+- **Null Hypothesis:** Stores offering discounts will have the same sales as stores not offering discounts.
+- **Alternative Hypothesis:** Stores offering discounts will have significantly higher sales than stores not offering discounts.
 
-Since p value is 0, it means we can reject the null hypothesis and accept the alternative hypothesis. This means that stores offering discounts will have significantly higher sales than stores not offering discounts.
+**Verdict:** Since the p-value is 0, we reject the null hypothesis and accept the alternative hypothesis. This means that stores offering discounts will have significantly higher sales than stores not offering discounts.
+
+---
 
 ### Effect of Holidays on Sales
 
-Hypothesis: Sales on holidays are higher compared to non-holidays
+**Hypothesis:** Sales on holidays are higher compared to non-holidays.
 
-- **Null Hypothesis:** Sales on holidays are the same as sales on non-holidays
-- **Alternative Hypothesis:** Sales on holidays are higher compared to non-holidays
+- **Null Hypothesis:** Sales on holidays are the same as sales on non-holidays.
+- **Alternative Hypothesis:** Sales on holidays are higher compared to non-holidays.
 
-Since p value is 1, we fail to reject the null hypothesis. This means that sales on holidays are the same as sales on non-holidays.
+**Verdict:** Since the p-value is 1, we fail to reject the null hypothesis. This means that sales on holidays are the same as sales on non-holidays.
 
-### Sales Differences Across Store
+---
 
-Hypothesis: Different store types experience different sales volumes
+### Sales Differences Across Store Types
 
-- **Null Hypothesis:** Different store types experience the same sales volumes
-- **Alternative Hypothesis:** Different store types experience different sales volumes
+**Hypothesis:** Different store types experience different sales volumes.
 
-Since p value is 0, we can reject the null hypothesis and accept the alternative hypothesis. This means that different store types experience different sales volumes.
+- **Null Hypothesis:** Different store types experience the same sales volumes.
+- **Alternative Hypothesis:** Different store types experience different sales volumes.
+
+**Verdict:** Since the p-value is 0, we reject the null hypothesis and accept the alternative hypothesis. This means that different store types experience different sales volumes.
+
+---
 
 ### Regional Sales Variability
 
-Hypothesis: Different regions experience different sales volumes
+**Hypothesis:** Different regions experience different sales volumes.
 
-- **Null Hypothesis:**  Different regions experience the same sales volumes
-- **Alternative Hypothesis:** Different regions experience different sales volumes
+- **Null Hypothesis:** Different regions experience the same sales volumes.
+- **Alternative Hypothesis:** Different regions experience different sales volumes.
 
 ![normality check](image-12.png)
 
 **Observations:**
 
-- From above shapiro test and qq plot we can say that the data is not normally distributed
-- We will be using Kruskal-Wallis test to check if the sales volumes are different across different regions
+- From the Shapiro test and QQ plot, we can say that the data is not normally distributed. Hence, we will use a non-parametric test to check if the sales volumes are different across different regions.
+- We will use the Kruskal-Wallis test to check if the sales volumes are different across different regions.
 
-Since p value for kruskal test is 0, we reject the null hypothesis and conclude that different regions experience different sales volumes.
+**Verdict:** Since the p-value for the Kruskal-Wallis test is 0, we reject the null hypothesis and conclude that different regions experience different sales volumes.
+
+---
 
 ### Correlation between Number of Orders and Sales
 
 ![Orders vs Sales](image.png)
 
+**Observations:**
+
 - From above plot we can see that there is a positive correlation between number of orders and sales. This means that as the number of orders increase, sales also increase.
 
 ## Time Series Analysis
 
+Time series analysis is a statistical method used to analyze and forecast time-dependent data. It involves identifying patterns, trends, and seasonal variations in the data to make predictions about future values. In this section, I will perform time series analysis on the sales data to identify trends, seasonality, and other patterns that can help us forecast future sales.
+
 ### Trend
+
+![Trend](./global_time_series.png)
+<p class="text-center">Global Time Series</p>
+
+As you can see from above plot there is no clear trend in the data. The sales data is stationary and does not exhibit any significant upward or downward trend over time.
+
+![Seasonal Decompose](image-13.png)
+<p class="text-center">Plot of Seasonal Decompose</p>
 
 ### Seasonality
 
@@ -308,7 +330,7 @@ day.
 
 #### Metric
 
-I used Mean Absolute Error (MAE) as the evaluation metric for the models.
+I used Mean Absolute Error (MAE) as the evaluation metric for the models. MAE is the average of the absolute differences between the predicted and actual values. It gives us an idea of how far off our predictions are from the actual values.
 
 #### Feature Engineering
 
@@ -347,17 +369,30 @@ for eg.
 
 ### Plots
 
-1. Feature Importance
-1. Residuals
-1. Actual vs. Predicted
+**Feature Importance**
+
+![Feature Importance](./image-14.png)
+
+- From above plot we can see that the most important feature is the 1 day lag feature.
+
+**Actual vs. Predicted**
+
+![Acutual Sales vs Predicted Sales](image-15.png)
+
+- From above plot we can see that the model is able to predict the sales approximately. However it couldn't predict the dips accurately.
+
+**Residuals**
+
+![Residual Distribution](image-16.png)
+
+- From above plot we can see that the residuals are normally distributed.
 
 ### Time Series Models
 
-1. Triple Exponential Smoothing (Holt-Winters)
-1. ARIMA
-1. SARIMA
-1. SARIMAX
-1. MSTLES
+**Triple Exponential Smoothing (Holt-Winters)**
+This model uses a combination of three components: level, trend, and seasonality. It is suitable for time series data with a trend and seasonality. I used this model to forecast the global sales data and
+region-level sales data.
+I didn't want to use this model for store-level sales data as there were 365 stores and it would be computationally expensive to run this model for each store. It would also be tedious to maintain and deploy 365 models.
 
 #### Feature Engineering
 
@@ -415,7 +450,8 @@ Following are some screenshots of the MLflow UI:
 
 ### Streamlit
 
-TODO: Add pipeline architecture diagram
+![Pipeline](./ml_pipeline_t.png)
+<p class="text-center">ML Pipeline</p>
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sales-forecasting-gn.streamlit.app/)
 

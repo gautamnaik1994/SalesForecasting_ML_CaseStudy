@@ -1,7 +1,6 @@
 flowchart-diagram
 
 title Machine Learning Prediction Pipeline
-direction bottom
 typeface clean
 
 Data Prep ML[color: lightblue, icon: database] {
@@ -15,17 +14,18 @@ Data Prep ML[color: lightblue, icon: database] {
 }
 
 Data Prep Econometric [color: yellow, icon: database] {
-  Rename Columns [icon: clock]
+  Rename Columns [icon: type]
+  Holiday Features [icon: calendar]
 }
 
 Prediction [color: lightgreen, icon: cpu] {
-  LightGBM Algo [icon: zap]
-  Facebook Prophet [icon: zap]
+  LightGBM Algo [icon: cpu]
+  Facebook Prophet [icon: facebook]
 }
 
 Prediction Technique [color: lightcoral, icon: bar-chart-2] {
-   Recursive Forecasting [icon: zap]
-   Batch Forecasting [icon: zap]
+   Recursive Forecasting [icon: repeat]
+   Batch Forecasting [icon: layers]
 }
 
 Live Data [shape: oval, icon: data] > Data Prep ML
@@ -39,4 +39,4 @@ Data Prep ML > LightGBM Algo
 Facebook Prophet > Batch Forecasting
 LightGBM Algo > Recursive Forecasting
 Data Prep Econometric > Facebook Prophet
-Prediction Technique > Output [shape: oval, icon: stop-circle]
+Prediction Technique > Forecast [shape: oval, icon: bar-chart]
