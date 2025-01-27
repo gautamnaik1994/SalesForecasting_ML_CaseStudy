@@ -36,6 +36,7 @@
     - [Sales Differences Across Store Types](#sales-differences-across-store-types)
     - [Regional Sales Variability](#regional-sales-variability)
     - [Correlation between Number of Orders and Sales](#correlation-between-number-of-orders-and-sales)
+  - [Business Insights and Recommendations](#business-insights-and-recommendations)
   - [Prediction and Forecasting](#prediction-and-forecasting)
     - [Machine Learning Models](#machine-learning-models)
       - [Metric](#metric)
@@ -47,11 +48,12 @@
       - [Metric](#metric-1)
       - [Plots](#plots-1)
     - [Hierarchical Forecasting](#hierarchical-forecasting)
-  - [Hyperparameter Tuning](#hyperparameter-tuning)
+  - [Hyperparameter Tuning and Experiment Tracking](#hyperparameter-tuning-and-experiment-tracking)
     - [Optuna](#optuna)
     - [MLflow](#mlflow)
   - [Deployment](#deployment)
     - [Streamlit](#streamlit)
+  - [GitHub Repository](#github-repository)
   - [Conclusion](#conclusion)
 
 ## Introduction
@@ -59,7 +61,7 @@
 Imagine you run multiple retail stores. One day, you suddenly run out of your best-selling product because you didn't anticipate the high demand. Frustrating, right? That's where sales forecasting comes in handy. It helps you plan your inventory and manage resources efficiently, so you're always prepared for your customers' needs.
 
 <Alert variant="info">
-This is a very long blog, please use the "Table of Contents" to read a particular subtopic.
+This blog post is extensive. To navigate to a specific topic, utilize the provided "Table of Contents."
 </Alert>
 
 In the competitive retail industry, accurately predicting future sales is crucial for operational and strategic planning. Product sales forecasting aims to estimate the number of products a store will sell in the future, based on various influencing factors such as store type, location, regional characteristics, promotional activities, and temporal variations (such as holidays and seasons). This case study focuses on developing a predictive model that uses historical sales data from different stores to forecast sales for upcoming periods.
@@ -113,7 +115,7 @@ EDA is an essential step in the data analysis process. It helps us understand th
 
 If you feel adventurous, you can view the EDA notebook by clicking the badge below.
 
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/eda/02.EDA.ipynb?flush_cache=true)
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/eda/01.EDA.ipynb?flush_cache=true)
 
 ### Uni-variate Analysis
 
@@ -257,10 +259,9 @@ Time series analysis is a statistical method used to analyze and forecast time-d
 ### Trend
 
 ![Trend](./global_time_series.png)
-
 <p class="text-center">Global Time Series</p>
 
-As you can see from the above plot there is no clear trend in the data. The sales data is stationary and does not exhibit any significant upward or downward trend over time.
+As you can see from the above plot there is no clear trend in the data. The sales data is stationary and does not exhibit any significant upward or downward trend over time. For in-depth analysis, please check the Tableau dashboard linked above.
 
 ![Seasonal Decompose](image-13.png)
 
@@ -398,6 +399,20 @@ If not, you stick with the null hypothesis and reconsider your coffee strategy.
 
 - From the above plot we can see that there is a positive correlation between the number of orders and sales. This means that as the number of orders increases, sales also increase.
 
+## Business Insights and Recommendations
+
+1. **Promotional Strategies**: The analysis revealed that stores offering discounts have significantly higher sales than stores not offering discounts. Business owners can leverage this insight to develop targeted promotional strategies, such as discount offers, to boost sales and attract more customers.
+2. **Seasonal Marketing Campaigns**: The time series analysis identified weekly and monthly seasonality patterns in the sales data. Business owners can use this information to plan seasonal marketing campaigns and promotions during peak sales periods to maximize revenue.
+3. **Inventory Management**: Understanding the impact of holidays on sales can help businesses optimize their inventory management processes. By anticipating increased demand during holidays, retailers can ensure they have sufficient stock to meet customer needs and avoid stockouts.
+4. **Regional Expansion**: The analysis revealed significant differences in sales volumes across different store types and regions. Business owners can use this information to identify high-performing regions and store types and consider expanding their operations in these areas to capitalize on the demand.
+5. **Customer Engagement**: The positive correlation between the number of orders and sales highlights the importance of customer engagement and retention. Business owners can focus on building strong customer relationships, providing excellent service, and offering personalized shopping experiences to increase customer loyalty and drive sales.
+6. **Data-Driven Decision Making**: By leveraging data analytics and machine learning models, businesses can make informed decisions based on data-driven insights. This can help optimize operations, improve forecasting accuracy, and drive business growth in a competitive retail environment.
+7. **Future Scope**: The analysis provides a solid foundation for future research and improvement. Businesses can explore advanced forecasting techniques, such as hierarchical forecasting and ensemble models, to enhance the accuracy and robustness of their sales forecasting systems.
+8. **Customer Feedback and Satisfaction**: Listening to customer feedback and addressing customer needs is key to building strong customer relationships and driving loyalty. By prioritizing customer satisfaction and engagement, businesses can create a positive shopping experience and build a loyal customer base.
+9. **Market Research and Competitive Analysis**: Conducting market research and competitive analysis is essential for understanding market trends, customer preferences, and competitor strategies. By staying informed about market dynamics and industry trends, businesses can identify opportunities for growth and develop effective strategies to stay competitive.
+10. **Brand Building and Marketing**: Investing in brand building and marketing is essential for creating brand awareness, attracting customers, and driving sales. By developing a strong brand identity, communicating brand values, and engaging customers through targeted marketing campaigns, businesses can build a loyal customer base and drive brand loyalty.
+11. **Operational Efficiency and Cost Optimization**: Improving operational efficiency and optimizing costs are key to maximizing profitability and sustainability. By streamlining processes, reducing waste, and optimizing resource allocation, businesses can enhance productivity, reduce costs, and improve overall performance.
+
 ## Prediction and Forecasting
 
 Businesses rely on planning for success, which necessitates an understanding of future trends.  While past sales data has offered valuable insights, we will now utilize machine learning algorithms to predict future sales.
@@ -433,7 +448,7 @@ During my experiments, I tried various machine learning algorithms, including Li
 - XGBoost, gave good results but was inconsistent in terms of duration of training. Sometimes it took a long time to train, and sometimes it was faster.
 - LightGBM, on the other hand, consistently outperformed the other algorithms in terms of speed and accuracy. It provided almost similar MAE as XGBoost but was faster in training.
 
-Eventually I settled on using LightGBM, a gradient boosting framework that is known for its speed, efficiency, and accuracy. LightGBM is particularly well-suited for large datasets and high-dimensional feature spaces, making it an ideal choice for time series forecasting tasks.
+Eventually, I settled on using LightGBM, a gradient-boosting framework that is known for its speed, efficiency, and accuracy. LightGBM is particularly well-suited for large datasets and high-dimensional feature spaces, making it an ideal choice for time series forecasting tasks.
 
 #### Metric
 
@@ -441,13 +456,13 @@ I used Mean Absolute Error (MAE) as the evaluation metric for the models. MAE is
 
 #### Forecasting Techniques
 
-When it comes to Forecasting techniques using ML algorithms there are multiple ways to forecast the sales data. Following are the techniques:
+When it comes to Forecasting techniques using ML algorithms there are multiple ways to forecast the sales data. The following are the techniques:
 
 **Single-step Forecasting**  
 Single-step forecasting is a forecasting technique that involves predicting one future time step at a time. In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next day. This is a simple and straightforward approach that can be effective for short-term forecasting.
 
 **Multi-step Forecasting**  
-Multi-step forecasting is a forecasting technique that involves predicting multiple future time steps simultaneously. In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next 7 days. This is a more advanced technique compared to single-step forecasting (predicting one time step ahead) and often requires additional feature engineering and more complex models. This can be done by training a separate model for each day ie. training a model for day 1, train another model for day 2 and so on. This is computationally expensive and not feasible for this project as it requires training and maintaining 7 models.
+Multi-step forecasting is a forecasting technique that involves predicting multiple future time steps simultaneously. In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next 7 days. This is a more advanced technique compared to single-step forecasting (predicting one time step ahead) and often requires additional feature engineering and more complex models. This can be done by training a separate model for each day ie. training a model for day 1, training another model for day 2 and so on. This is computationally expensive and not feasible for this project as it requires training and maintaining 7 models.
 
 **Multi-output Forecasting**  
 This is computationally less expensive compared to multi-step forecasting as we train a single model to predict multiple days in the future.
@@ -456,7 +471,7 @@ Here is the link to the documentation: [MultiOutput Regressor](https://scikit-le
 
 **Recursive Forecasting**
 Recursive forecasting is a methodology that utilizes historical data to predict future values. In this specific scenario, the model necessitates the data from the preceding 30 days to forecast the subsequent day's value.
-This approach inherently limits the model's predictive capacity to a single day in advance. If a projection for multiple days in the future is required, the predicted value for the next day must be used as an input for the subsequent day's prediction, and this process is repeated for each successive day. This iterative process is known as recursion.
+This approach inherently limits the model's predictive capacity to a single day in advance. If a projection for multiple days in the future is required, the predicted value for the next day must be used as input for the subsequent day's prediction, and this process is repeated for each successive day. This iterative process is known as recursion.
 While recursive forecasting can be effective, it is essential to note that the accuracy of the predictions can degrade with each iteration. This is due to the fact that each prediction is based on a previous prediction, and any errors in the initial prediction will be compounded in subsequent predictions.
 Therefore, while recursive forecasting can be a valuable tool for short-term forecasting, it may not be suitable for long-term forecasting due to the potential for accumulating errors.
 
@@ -464,8 +479,7 @@ Therefore, while recursive forecasting can be a valuable tool for short-term for
 
 **Lag Features**
 
-From the time series analysis above I found that there are multiple seasonalities in the data. I used the 1-day lag, 7-day lag, 12-day lag and 30-day lag as features.
-Using all the above lag values, I derived the following features:
+The time series analysis revealed multiple seasonalities within the data. To address this, I incorporated a 1-day lag, 7-day lag, 12-day lag, and 30-day lag as features. From these lag values, I derived the following features:
 
 1. Sales lag for each lag value
 2. Rolling mean of Sales for each lag value
@@ -516,23 +530,33 @@ for eg.
 
 ### Time Series Models
 
-TODO describe time series models
+Time series forecasting is a method used to predict future values based on historical data. It involves analyzing the patterns and trends in the data to make informed predictions about future values. In this project, I used various time series models to forecast sales data at different levels of granularity, including global, regional, and store-level sales. Unlike traditional machine learning models, time series models are specifically designed to handle time-dependent data and capture the underlying patterns and seasonality present in the data.  
+The following are the models used in this project:
 
 **Triple Exponential Smoothing (Holt-Winters)**
 
-This model uses a combination of three components: level, trend, and seasonality. It is suitable for time series data with a trend and seasonality. I used this model to forecast the global sales data and
-region-level sales data.
-I didn't want to use this model for store-level sales data as there were 365 stores and it would be computationally expensive to run this model for each store. It would also be tedious to maintain and deploy 365 models.
+The model incorporates level, trend, and seasonality components, making it suitable for time series data exhibiting these characteristics. It was employed to forecast both global and regional sales data.
+
+However, this model wasn't used for store-level sales data due to the presence of 365 stores. Applying the model to each store would be computationally expensive and result in 365 separate models, which would be cumbersome to maintain and deploy.
+
+**ARIMA & MSTL**
+
+SARIMAX is a variant of the ARIMA model that includes an additional component for seasonality. It is suitable for time series data with a trend and seasonality. Since this dataset contains multiple seasonal patterns, I used Multiple Seasonal Decomposition of Time Series (MSTL) for modeling the seasonality. I used this model to forecast the global sales data and region-level sales data.
 
 **Facebook Prophet**
 
 Prophet is a forecasting tool developed by Facebook that is designed for analyzing time series data with daily observations that display patterns on different time scales. It is robust to missing data and shifts in the trend, and it provides intuitive parameters that are easy to interpret. I used this model to forecast the global sales data and region-level sales data.
+I used this model to forecast the global sales data and region-level sales data.
 
 #### Feature Engineering
 
+The dataset included discount dates for various stores, and I needed to aggregate this data at the regional level to create a new feature called 'Total_Discount', representing the total number of discounts offered in a region on any given day. This was necessary because I was forecasting for regional and global sales, which required aggregating the data at those levels.
+
 #### Metric
 
-I used Mean Absolute Percentage Error (MAPE) as the evaluation metric for the models.
+The models were assessed using the Mean Absolute Percentage Error (MAPE), which measures forecasting accuracy by averaging the absolute percentage errors between predicted and actual values. Lower MAPE values indicate better model performance.
+
+The goal was to achieve a MAPE value below 10%, but the models only reached a MAPE value of approximately 15%.
 
 #### Plots
 
@@ -553,7 +577,9 @@ Hierarchical forecasting is further divided into 3 main types:
 2. **Bottom-Up Approach**: In this approach, the forecast for the lowest level of aggregation (e.g., individual store sales) is generated first, and then the forecast is aggregated to higher levels of aggregation (e.g., regional and global sales) based on the sum of the lower-level forecasts.
 3. **Middle-Out Approach**: In this approach, the forecast for the middle level of aggregation (e.g., regional sales) is generated first, and then the forecast is disaggregated to lower levels of aggregation (e.g., individual store sales) and aggregated to higher levels of aggregation (e.g., global sales).
 
-## Hyperparameter Tuning
+I will be using these techniques as part of future improvements to the model.
+
+## Hyperparameter Tuning and Experiment Tracking
 
 Hyperparameter tuning is the process of finding the best hyperparameters for a
 model. Grid Search and Random Search are the most common methods for
@@ -564,7 +590,7 @@ I have explained in detail about MLflow and Optuna in the next section.
 
 ### Optuna
 
-Optuna is a hyperparameter optimization framework that uses
+Optuna is a hyperparameter optimisation framework that uses
 [Bayesian Optimization](https://en.wikipedia.org/wiki/Bayesian_optimization) to
 find the best hyperparameters for a model. Optuna optionally saves information
 about all the trails in a local SQLite database. It also provides a web UI to
@@ -574,36 +600,59 @@ show which hyperparameters are important.
 Following are some screenshots of the Optuna UI:
 
 ![Optuna Dashboard](./timeline.png)
-
 <p class="text-center">Optuna Dashboard</p>
 
 ![Optuna Hyperparameter Importance](./parameter_importance.png)
-
 <p class="text-center">Hyperparameter Importance</p>
 
 ### MLflow
 
 Whenever I work on ML projects, It quickly gets messy with multiple experiments, models,
-and hyperparameters. Even the Jupyter Notebook gets cluttered with multiple
-cells. This is where MLflow comes in. When set up correctly, MLflow can help you
-track your experiments, models, and hyperparameters. It also helps you to log
+and hyperparameters. Even the Jupyter Notebook gets cluttered with numerous
+cells. This is where MLflow comes in. MLflow can help you
+track your experiments, models, and hyperparameters when set up correctly. It also helps you to log
 the metrics, parameters, and artefacts. It also helps you to compare the
 experiments and models. It also helps you to reproduce the results.
 
 Following are some screenshots of the MLflow UI:
 
 ![MLflow Dashboard](./mlflow.png)
-
-<p class="text-center">Dashboard</p>
+<p class="text-center">MLFlow Dashboard</p>
 
 ## Deployment
 
 ### Streamlit
 
-![Pipeline](./ml_pipeline_t.png)
+I used Streamlit to deploy the model as a web application. Streamlit is an open-source app framework for Machine Learning and Data Science projects. It allows you to create interactive web applications directly from your Python scripts.
 
-<p class="text-center">ML Pipeline</p>
+My Streamlit app provides the following functionalities:
+
+- Global Sales Forecasting
+- Regional Sales Forecasting
+- Store Sales Forecasting
+
+<Alert variant="info">
+Streamlit shuts down the app after some time of inactivity. If you cannot see the app, click on the "Wake Up App" button.
+</Alert>
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sales-forecasting-gn.streamlit.app/)
+
+**Pipeline**
+
+Time series forecasting models like Facebook Prophet needs details of future data like holidays, discount days to predict future sales. Similarly, ML models need the past 30 days data to predict the future sales.
+For predicting store sales, I could have used directly used the cleaned data, but in order to simulate the real-world scenario, I have created a pipeline that takes the raw data, cleans it, and then predicts the sales.
+
+![Pipeline](./ml_pipeline.png)
+<p class="text-center">ML Prediction Pipeline</p>
+
+Following is the notebook that contains the code of the pipeline
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/modelling/05.MLAlgo_RecursiveForecasting.ipynb?flush_cache=true)
+
+## GitHub Repository
+
+The complete code can be found in the GitHub repository below. All the notebooks are in the notebook directory, which is further divided into data processing, EDA and modelling.
+
+[![GitHub](https://img.shields.io/badge/View%20on-GitHub-blue?logo=github)](https://github.com/gautamnaik1994/SalesForecasting_ML_CaseStudy)
 
 ## Conclusion
