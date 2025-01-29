@@ -37,42 +37,54 @@
     - [Regional Sales Variability](#regional-sales-variability)
     - [Correlation between Number of Orders and Sales](#correlation-between-number-of-orders-and-sales)
   - [Business Insights and Recommendations](#business-insights-and-recommendations)
+  - [Clustering](#clustering)
+    - [Why Clustering?](#why-clustering)
+    - [Post Clustering Analysis](#post-clustering-analysis)
   - [Prediction and Forecasting](#prediction-and-forecasting)
     - [Machine Learning Models](#machine-learning-models)
       - [Metric](#metric)
       - [Forecasting Techniques](#forecasting-techniques)
       - [Feature Engineering](#feature-engineering)
       - [Plots](#plots)
+      - [Performance of different models](#performance-of-different-models)
     - [Time Series Models](#time-series-models)
       - [Feature Engineering](#feature-engineering-1)
       - [Metric](#metric-1)
       - [Plots](#plots-1)
+      - [Performance of different models](#performance-of-different-models-1)
     - [Hierarchical Forecasting](#hierarchical-forecasting)
   - [Hyperparameter Tuning and Experiment Tracking](#hyperparameter-tuning-and-experiment-tracking)
     - [Optuna](#optuna)
     - [MLflow](#mlflow)
-  - [Deployment](#deployment)
-    - [Streamlit](#streamlit)
+  - [Deployment using Streamlit](#deployment-using-streamlit)
   - [GitHub Repository](#github-repository)
   - [Conclusion](#conclusion)
+    - [Learnings and Challenges](#learnings-and-challenges)
+  - [References](#references)
 
 ## Introduction
 
-Imagine you run multiple retail stores. One day, you suddenly run out of your best-selling product because you didn't anticipate the high demand. Frustrating, right? That's where sales forecasting comes in handy. It helps you plan your inventory and manage resources efficiently, so you're always prepared for your customers' needs.
-
 <Alert variant="info">
-This blog post is extensive. To navigate to a specific topic, utilize the provided "Table of Contents."
+  This blog post is extensive. To navigate to a specific topic, utilize the
+  provided "Table of Contents."
 </Alert>
 
+Imagine you run multiple retail stores. One day, you suddenly run out of your best-selling product because you didn't anticipate the high demand. Frustrating, right? That's where sales forecasting comes in handy. It helps you plan your inventory and manage resources efficiently, so you're always prepared for your customers' needs.
 In the competitive retail industry, accurately predicting future sales is crucial for operational and strategic planning. Product sales forecasting aims to estimate the number of products a store will sell in the future, based on various influencing factors such as store type, location, regional characteristics, promotional activities, and temporal variations (such as holidays and seasons). This case study focuses on developing a predictive model that uses historical sales data from different stores to forecast sales for upcoming periods.
 
 Effective sales forecasting is fundamental for multiple aspects of retail management and operation, including:
 
 1. Inventory Management: Accurate sales forecasts help ensure that stores maintain optimal inventory levels—enough to meet customer demand without overstocking, which can lead to increased costs or waste, especially in the case of perishable goods.
-1. Financial Planning: Forecasting sales allows businesses to estimate future revenue and manage budgets more effectively. This is crucial for allocating resources to areas such as marketing, staffing, and capital investments.
-1. Marketing and Promotions: Understanding when sales peaks and troughs are likely to occur enables retailers to plan effective marketing campaigns and promotional offers to boost revenue or manage customer flow.
-1. Supply Chain Optimization: Sales forecasts inform production schedules, logistics, and distribution plans, ensuring that products are available where and when they are needed, thereby reducing transportation and storage costs.
-1. Strategic Decision Making: Long-term sales forecasting supports broader business strategies, including store expansions, market-entry, and other capital expenditures.
+2. Financial Planning: Forecasting sales allows businesses to estimate future revenue and manage budgets more effectively. This is crucial for allocating resources to areas such as marketing, staffing, and capital investments.
+3. Marketing and Promotions: Understanding when sales peaks and troughs are likely to occur enables retailers to plan effective marketing campaigns and promotional offers to boost revenue or manage customer flow.
+4. Supply Chain Optimization: Sales forecasts inform production schedules, logistics, and distribution plans, ensuring that products are available where and when they are needed, thereby reducing transportation and storage costs.
+5. Strategic Decision Making: Long-term sales forecasting supports broader business strategies, including store expansions, market-entry, and other capital expenditures.
+
+**3 examples of real-world market demand forecasting stories:**
+
+- A global alcohol brand used market demand forecasting models to avoid overproduction, saving $9 million per year.
+- An electronics company used consumer sentiment and economic factors into its marketing strategy for a new mobile device, allowing them to identify profitable markets and exit unprofitable ones.
+- A convenience store chain used  predictive models for its market areas, reducing inventory costs and improving the bottom line by avoiding inventory overages.
 
 ## Process Flow
 
@@ -92,22 +104,22 @@ Effective sales forecasting is fundamental for multiple aspects of retail manage
 
 ## Data
 
-1. ID: Unique identifier for each record in the dataset.
-2. Store_id: Unique identifier for each store.
-3. Store_Type: Categorization of the store based on its type.
-4. Location_Type: Classification of the store's location (e.g., urban, suburban).
-5. Region_Code: Code representing the geographical region where the store is located.
-6. Date: The specific date on which the data was recorded.
-7. Holiday: Indicator of whether the date was a holiday (1: Yes, 0: No).
-8. Discount: Indicates whether a discount was offered on the given date (Yes/No).
-9. Orders: The number of orders received by the store on the specified day.
-10. Sales: Total sales amount for the store on the given day.
+1. **ID**: Unique identifier for each record in the dataset.
+2. **Store_id**: Unique identifier for each store.
+3. **Store_Type**: Categorization of the store based on its type.
+4. **Location_Type**: Classification of the store's location (e.g., urban, suburban).
+5. **Region_Code**: Code representing the geographical region where the store is located.
+6. **Date**: The specific date on which the data was recorded.
+7. **Holiday**: Indicator of whether the date was a holiday (1: Yes, 0: No).
+8. **Discount**: Indicates whether a discount was offered on the given date (Yes/No).
+9. **Orders**: The number of orders received by the store on the specified day.
+10. **Sales**: Total sales amount for the store on the given day.
 
-TODO: Add more details about the data variables and their importance
+From the above data fields, we can see that the data contains both categorical and numerical features. The target variable is 'Sales', which we aim to forecast based on the other features. The data spans multiple stores, regions, and dates, providing a rich source of information for analysis and modelling.
 
 ## Data Sanity Check
 
-Before we start with the analysis, it is important to perform a data sanity check to ensure that the data is clean and consistent. This involves checking for missing values, duplicates, outliers, and other anomalies that could affect the quality of the analysis and modelling.
+Before we start with the analysis, it is important to perform a data sanity check to ensure that the data is clean and consistent. This involves checking for missing values, duplicates, outliers, and other anomalies that could affect the quality of the analysis and modelling.  
 
 ## EDA
 
@@ -125,7 +137,7 @@ If you feel adventurous, you can view the EDA notebook by clicking the badge bel
 
 **Observations:**
 
-- We can see that most of the order count for each store is around 50 - 80
+- We can see that most of the order count for each store is around 50 - 80  
 
 ---
 
@@ -200,7 +212,7 @@ If you feel adventurous, you can view the EDA notebook by clicking the badge bel
 
 **Observations:**
 
-- From the above plot we can see a clear distribution of sales and orders by the store for each Store type
+- From the above plot we can see a clear distribution of sales and orders by store for each Store type
 
 ---
 
@@ -230,15 +242,15 @@ To share this analysis with a wider audience, I have created an interactive Tabl
 
 **Planning Tableau Dashboard**
 
-Before starting the analysis, I created a outline of  Tableau dashboard to
-visualize the data and identify key insights. This dashboard provides an
-overview of the sales data, including sales by store type, location type, and
-region, as well as trends over time. It also includes interactive filters and
-drill-down capabilities to explore the data in more detail.
+Before starting the analysis, I created an outline of the Tableau dashboard to identify key insights.  
 
 ![Planning Tableau Dashboard](./tableau-skeleton.png)
 
 **Final Tableau Dashboard**
+
+This dashboard provides an overview of the sales data, including sales by store type, location type, and
+region, as well as trends over time. It also includes interactive filters and
+drill-down capabilities to explore the data in more detail.
 
 Click on the following badge to view the Tableau dashboard.
 
@@ -246,7 +258,15 @@ Click on the following badge to view the Tableau dashboard.
 
 **Following is the embedded dashboard**
 
-<iframe src="https://public.tableau.com/views/SalesForecasting_17373524705280/SalesForecasting?:showVizHome=no&:embed=true" frameborder="0"  height="900" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" className="blog-wide-section"></iframe>
+<iframe
+  src="https://public.tableau.com/views/SalesForecasting_17373524705280/SalesForecasting?:showVizHome=no&:embed=true"
+  frameborder="0"
+  height="900"
+  allowfullscreen="true"
+  mozallowfullscreen="true"
+  webkitallowfullscreen="true"
+  className="blog-wide-section"
+></iframe>
 
 ### Tableau Dashboard Insights
 
@@ -264,7 +284,6 @@ Time series analysis is a statistical method used to analyze and forecast time-d
 As you can see from the above plot there is no clear trend in the data. The sales data is stationary and does not exhibit any significant upward or downward trend over time. For in-depth analysis, please check the Tableau dashboard linked above.
 
 ![Seasonal Decompose](image-13.png)
-
 <p class="text-center">Plot of Seasonal Decompose</p>
 
 ### Seasonality
@@ -275,7 +294,7 @@ As with any sales data, multiple seasonal patterns are evident. The most importa
 
 #### Day of Week Seasonality
 
-![Day of Week Seasonality](image-1.png)
+![Sales by Day of week](image-22.png)
 
 - Sales are highest during Saturday and Sunday
 - This can be attributed to the fact that most people are off from work during the weekends and tend to shop more
@@ -291,7 +310,7 @@ As with any sales data, multiple seasonal patterns are evident. The most importa
 
 #### Week of the Month Seasonality
 
-![Week of the month](image-3.png)
+![Week of the month](image-1.png)
 
 - There is a higher number of sales during the first week of the month
 - There is a slight increase in sales during the last week of the month
@@ -299,7 +318,7 @@ As with any sales data, multiple seasonal patterns are evident. The most importa
 
 #### Monthly Seasonality
 
-![Monthly Seasonality](image-2.png)
+![Sales by Month](image-2.png)
 
 - Sales are highest during May, July, December, and January
 
@@ -399,23 +418,58 @@ If not, you stick with the null hypothesis and reconsider your coffee strategy.
 
 - From the above plot we can see that there is a positive correlation between the number of orders and sales. This means that as the number of orders increases, sales also increase.
 
+Code for hypothesis testing can be found in the notebook linked below.
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/eda/02.HypothesisTesting.ipynb?flush_cache=true)
+
 ## Business Insights and Recommendations
 
 1. **Promotional Strategies**: The analysis revealed that stores offering discounts have significantly higher sales than stores not offering discounts. Business owners can leverage this insight to develop targeted promotional strategies, such as discount offers, to boost sales and attract more customers.
 2. **Seasonal Marketing Campaigns**: The time series analysis identified weekly and monthly seasonality patterns in the sales data. Business owners can use this information to plan seasonal marketing campaigns and promotions during peak sales periods to maximize revenue.
-3. **Inventory Management**: Understanding the impact of holidays on sales can help businesses optimize their inventory management processes. By anticipating increased demand during holidays, retailers can ensure they have sufficient stock to meet customer needs and avoid stockouts.
-4. **Regional Expansion**: The analysis revealed significant differences in sales volumes across different store types and regions. Business owners can use this information to identify high-performing regions and store types and consider expanding their operations in these areas to capitalize on the demand.
+3. **Regional Expansion**: The analysis revealed significant differences in sales volumes across different store types and regions. Business owners can use this information to identify high-performing regions and store types and consider expanding their operations in these areas to capitalize on the demand.
+4. **Inventory Management**: Understanding the impact of holidays on sales can help businesses optimize their inventory management processes. By anticipating increased demand during holidays, retailers can ensure they have sufficient stock to meet customer needs and avoid stockouts.
 5. **Customer Engagement**: The positive correlation between the number of orders and sales highlights the importance of customer engagement and retention. Business owners can focus on building strong customer relationships, providing excellent service, and offering personalized shopping experiences to increase customer loyalty and drive sales.
 6. **Data-Driven Decision Making**: By leveraging data analytics and machine learning models, businesses can make informed decisions based on data-driven insights. This can help optimize operations, improve forecasting accuracy, and drive business growth in a competitive retail environment.
 7. **Future Scope**: The analysis provides a solid foundation for future research and improvement. Businesses can explore advanced forecasting techniques, such as hierarchical forecasting and ensemble models, to enhance the accuracy and robustness of their sales forecasting systems.
-8. **Customer Feedback and Satisfaction**: Listening to customer feedback and addressing customer needs is key to building strong customer relationships and driving loyalty. By prioritizing customer satisfaction and engagement, businesses can create a positive shopping experience and build a loyal customer base.
-9. **Market Research and Competitive Analysis**: Conducting market research and competitive analysis is essential for understanding market trends, customer preferences, and competitor strategies. By staying informed about market dynamics and industry trends, businesses can identify opportunities for growth and develop effective strategies to stay competitive.
-10. **Brand Building and Marketing**: Investing in brand building and marketing is essential for creating brand awareness, attracting customers, and driving sales. By developing a strong brand identity, communicating brand values, and engaging customers through targeted marketing campaigns, businesses can build a loyal customer base and drive brand loyalty.
-11. **Operational Efficiency and Cost Optimization**: Improving operational efficiency and optimizing costs are key to maximizing profitability and sustainability. By streamlining processes, reducing waste, and optimizing resource allocation, businesses can enhance productivity, reduce costs, and improve overall performance.
+
+## Clustering
+
+Clustering is an unsupervised machine-learning technique used to group similar data points together based on their features. It is commonly used for customer segmentation, anomaly detection, and pattern recognition.
+
+### Why Clustering?
+
+**Building Models for Each Cluster**
+
+The dataset contained 365 stores, so building 365 individual models was not feasible. Clustering stores based on sales data was considered, with the goal of building a single model for each cluster. However, this approach was abandoned due to the inability to achieve clear separation of clusters using KMeans clustering.
+
+Following is the plot of the KMeans clustering:
+
+![Kmeans](image-18.png)
+
+**For Feature Engineering**
+
+I wanted to incorporate some information about the stores into the model, but I also wanted to avoid data leakage, which can be a potential issue with target encoding on Store IDs.
+I attempted to use hierarchical clustering to generate clusters and then use the cluster ID as a feature in the model, but this approach was not successful. In the end, I used both target encoding on Store IDs and cluster ID as features in the model. As you'll see in the feature importance plot provided in the following sections, cluster ID had the least feature importance.
+
+Following is the plot of Hierarchical Clustering:
+
+![Hierarchical Clusters](image-20.png)
+
+### Post Clustering Analysis
+
+After clustering the stores, I performed a post-clustering analysis to understand the characteristics of each cluster and identify any patterns or trends that could inform the forecasting model. This is done by aggregating the sales data for each cluster and analyzing the average sales, sales growth, and other relevant metrics.
+
+![Cluster analysis](image-24.png)
+
+Above polar plot shows the averaged data for each cluster. We can see that stores belonging to Cluster 2 has high average sales growth while stores belonging to Cluster 3 has high average sales.
+
+Code for the clustering can be found in the notebook linked below.
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/data_processing/03.Clustering.ipynb?flush_cache=true)
 
 ## Prediction and Forecasting
 
-Businesses rely on planning for success, which necessitates an understanding of future trends.  While past sales data has offered valuable insights, we will now utilize machine learning algorithms to predict future sales.
+Businesses rely on planning for success, which necessitates an understanding of future trends. While past sales data has offered valuable insights, we will now utilize machine learning algorithms to predict future sales.
 
 Traditional statistical and econometric models, while valuable in certain contexts, are often limited in their ability to capture the complexities and nuances of real-world sales data. These models typically assume fixed patterns and relationships, which may not always hold true in practice. Machine learning algorithms, on the other hand, are designed to learn and adapt from data, allowing them to identify and model even the most intricate patterns and trends.
 
@@ -426,12 +480,6 @@ By combining the strengths of machine learning algorithms and statistical time s
 In the following sections, I will delve deeper into the models and forecasting techniques used in this project, as well as the metrics and feature engineering strategies employed to optimize the predictive performance.
 
 ### Machine Learning Models
-
-TODO
-
-- What specific historical data features are included in the dataset for sales forecasting?
-- How are the machine learning models selected and evaluated for accuracy in the prediction process?
-- What are the anticipated challenges in implementing the sales forecasting model in a real retail environment?
 
 When utilizing Machine Learning (ML) algorithms for time series forecasting, it's essential to understand that the data cannot be used in its raw format. ML algorithms typically require training data structured as 'n' rows and 'm' columns, along with corresponding target data with 'n' rows and one or more columns, depending on the specific algorithm.
 
@@ -444,6 +492,7 @@ We will go into detail about this in the upcoming Feature Engineering section.
 During my experiments, I tried various machine learning algorithms, including Linear Regression, Random Forest, XGBoost, and LightGBM, to forecast sales data.
 
 - Linear Regression, while simple and interpretable, struggled to capture the complex patterns and non-linear relationships present in the data.
+- ElasticNet, a variant of Linear Regression that combines L1 and L2 regularization, was also tested but did not yield significant improvements in performance.
 - Random Forest took a long time to train and was not as accurate as XGBoost and LightGBM.
 - XGBoost, gave good results but was inconsistent in terms of duration of training. Sometimes it took a long time to train, and sometimes it was faster.
 - LightGBM, on the other hand, consistently outperformed the other algorithms in terms of speed and accuracy. It provided almost similar MAE as XGBoost but was faster in training.
@@ -452,26 +501,35 @@ Eventually, I settled on using LightGBM, a gradient-boosting framework that is k
 
 #### Metric
 
-I used Mean Absolute Error (MAE) as the evaluation metric for the models. MAE is the average of the absolute differences between the predicted and actual values. It gives us an idea of how far off our predictions are from the actual values. The lower the MAE, the better the model's performance. The standard deviation of the sales was 18084, so an MAE between 5000 and 10000 was considered a good value.
+I used Mean Absolute Error (MAE) as the evaluation metric for the models. MAE is the average of the absolute differences between the predicted and actual values. It gives us an idea of how far off our predictions are from the actual values. The lower the MAE, the better the model's performance.  
+The standard deviation of the sales was 18084, so an MAE between 5000 and 10000 was considered a good value.
 
 #### Forecasting Techniques
 
 When it comes to Forecasting techniques using ML algorithms there are multiple ways to forecast the sales data. The following are the techniques:
 
-**Single-step Forecasting**  
-Single-step forecasting is a forecasting technique that involves predicting one future time step at a time. In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next day. This is a simple and straightforward approach that can be effective for short-term forecasting.
+**Single-step Forecasting**
 
-**Multi-step Forecasting**  
-Multi-step forecasting is a forecasting technique that involves predicting multiple future time steps simultaneously. In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next 7 days. This is a more advanced technique compared to single-step forecasting (predicting one time step ahead) and often requires additional feature engineering and more complex models. This can be done by training a separate model for each day ie. training a model for day 1, training another model for day 2 and so on. This is computationally expensive and not feasible for this project as it requires training and maintaining 7 models.
+Single-step forecasting is a forecasting technique that involves predicting one future time step at a time. In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next day.  
+This is a simple and straightforward approach that can be effective for short-term forecasting.
 
-**Multi-output Forecasting**  
-This is computationally less expensive compared to multi-step forecasting as we train a single model to predict multiple days in the future.
-In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next 7 days. This is a more advanced technique compared to single-step forecasting (predicting one time step ahead) and often requires additional feature engineering and more complex models. One can use MultiOuput Regressor from sklearn to implement this if the algorithm doesn't support multi-output forecasting natively.  
+**Multi-step Forecasting**
+
+Multi-step forecasting is a forecasting technique that involves predicting multiple future time steps simultaneously. In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next 7 days.  
+This is a more advanced technique compared to single-step forecasting (predicting one time step ahead) and often requires additional feature engineering and more complex models.  
+This can be done by training a separate model for each day ie. training a model for day 1, training another model for day 2 and so on. This is computationally expensive and not feasible for this project as it requires training and maintaining 7 models.
+
+**Multi-output Forecasting**
+
+This is computationally less expensive compared to multi-step forecasting as we train a single model to predict multiple days in the future.  
+In the context of this project, it would mean using the data from the previous 30 days to forecast the sales for the next 7 days. This is a more advanced technique compared to single-step forecasting (predicting one-time step ahead) and often requires additional feature engineering and more complex models. One can use MultiOuput Regressor from sklearn to implement this if the algorithm doesn't support multi-output forecasting natively.  
 Here is the link to the documentation: [MultiOutput Regressor](https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputRegressor.html)
 
 **Recursive Forecasting**
-Recursive forecasting is a methodology that utilizes historical data to predict future values. In this specific scenario, the model necessitates the data from the preceding 30 days to forecast the subsequent day's value.
-This approach inherently limits the model's predictive capacity to a single day in advance. If a projection for multiple days in the future is required, the predicted value for the next day must be used as input for the subsequent day's prediction, and this process is repeated for each successive day. This iterative process is known as recursion.
+
+Recursive forecasting is a methodology that utilizes historical data to predict future values. In this specific scenario, the model necessitates the data from the preceding 30 days to forecast the subsequent day's value.  
+This approach inherently limits the model's predictive capacity to a single day in advance.
+If a projection for multiple days in the future is required, the predicted value for the next day must be used as input for the subsequent day's prediction, and this process is repeated for each successive day. This iterative process is known as recursion.  
 While recursive forecasting can be effective, it is essential to note that the accuracy of the predictions can degrade with each iteration. This is due to the fact that each prediction is based on a previous prediction, and any errors in the initial prediction will be compounded in subsequent predictions.
 Therefore, while recursive forecasting can be a valuable tool for short-term forecasting, it may not be suitable for long-term forecasting due to the potential for accumulating errors.
 
@@ -516,9 +574,49 @@ for eg.
 
 - From the above plot we can see that the most important feature is the 1-day lag feature. This means that the sales on the previous day have the most impact on the sales for the current day.
 
+**Model Interpretation Plot**
+
+Model interpretation is different from feature importance. Feature importance tells us how much each feature contributes to the model's predictions, while model interpretation tells us how each feature affects the model's predictions.
+A python package called [shap](https://shap.readthedocs.io/en/latest/) is used to interpret the model.
+
+Following is the code used to generate the model interpretation plot:
+
+```python
+fig, ax = plt.subplots(figsize=(10, 5))
+
+# following data is test dataframe
+transformed_forecast_df = pd.DataFrame(transformed_forecast_data, columns=pipeline[1].get_feature_names_out())
+# Generate SHAP values
+explainer = shap.TreeExplainer(lgbm)
+# get the first row of the test data
+shap_values = explainer.shap_values(transformed_forecast_data[0].reshape(1, -1))
+
+# Create the SHAP waterfall plot
+shap.waterfall_plot(
+    shap.Explanation(
+        values=shap_values[0],
+        base_values=explainer.expected_value,
+        data=transformed_forecast_df.iloc[0, :],
+        feature_names=transformed_forecast_df.columns
+    ),
+    max_display=15,
+    show=False
+)
+
+# Set the title and show the plot
+plt.title(f"SHAP Waterfall Plot for Store ID {forecast_df['Store_id'].iloc[0]}")
+plt.show()
+```
+
+![Model Interpretation](image-21.png)
+
+From above plot we can see that 'Discount' had a positive impact on the sales, while 'Is Weekend' had a negative impact on the sales. Upon inspecting the data, I confirmed that on above date, It **was a Discount day** and also it was **not a Weekend**. This explains the positive impact of 'Discount' and negative impact of 'Is Weekend' on the sales.  
+This is how I can verify the model's predictions and understand the impact of each feature on the model's predictions.
+
 **Actual vs. Predicted**
 
 ![Acutual Sales vs Predicted Sales](image-15.png)
+<p class="text-center">Actual vs Predicted Sales</p>
 
 - From the above plot we can see that the model can predict the sales approximately. However, it couldn't predict the dips accurately.
 
@@ -528,9 +626,23 @@ for eg.
 
 - From the above plot we can see that the residuals are normally distributed.
 
+#### Performance of different models
+
+| Model | MAE |
+| --- | --- |
+| Linear Regression | 7118.54 |
+| ElasticNet | 6956.83 |
+| Random Forest | 6515.05 |
+| XGBoost | 6431.14 |
+| LightGBM | 6107.66|
+
+From the above table we can see that LightGBM performed the best in terms of MAE. Compared to linear models, tree-based models like XGBoost and LightGBM are better at capturing non-linear relationships and interactions between features, making them more suitable for time series forecasting tasks.
+
 ### Time Series Models
 
-Time series forecasting is a method used to predict future values based on historical data. It involves analyzing the patterns and trends in the data to make informed predictions about future values. In this project, I used various time series models to forecast sales data at different levels of granularity, including global, regional, and store-level sales. Unlike traditional machine learning models, time series models are specifically designed to handle time-dependent data and capture the underlying patterns and seasonality present in the data.  
+Time series forecasting is a method used to predict future values based on historical data. It involves analyzing the patterns and trends in the data to make informed predictions about future values.  
+In this project, I used various time series models to forecast sales data at different levels of granularity, including global, regional, and store-level sales.  
+Unlike traditional machine learning models, time series models are specifically designed to handle time-dependent data and capture the underlying patterns and seasonality present in the data.  
 The following are the models used in this project:
 
 **Triple Exponential Smoothing (Holt-Winters)**
@@ -539,14 +651,30 @@ The model incorporates level, trend, and seasonality components, making it suita
 
 However, this model wasn't used for store-level sales data due to the presence of 365 stores. Applying the model to each store would be computationally expensive and result in 365 separate models, which would be cumbersome to maintain and deploy.
 
+All the code for the above models can be found in the following notebook:
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/modelling/01.HoltWinterMethod.ipynb?flush_cache=true)
+
 **ARIMA & MSTL**
 
-SARIMAX is a variant of the ARIMA model that includes an additional component for seasonality. It is suitable for time series data with a trend and seasonality. Since this dataset contains multiple seasonal patterns, I used Multiple Seasonal Decomposition of Time Series (MSTL) for modeling the seasonality. I used this model to forecast the global sales data and region-level sales data.
+SARIMAX is a variant of the ARIMA model that includes an additional component for seasonality. It is suitable for time series data with a trend and seasonality. Since this dataset contains multiple seasonal patterns, I used Multiple Seasonal Decomposition of Time Series (MSTL) for modelling the seasonality. I used this model to forecast the global sales data and region-level sales data.
+
+**MFLES**
+
+MFLES is a simple time series method based on gradient boosting time series decomposition. This is a part of Nixtla StatsForecast package. [Nixtla StatsForecast](https://nixtlaverse.nixtla.io/statsforecast/docs/models/mfles.html)
+
+All the code for the above ARIMA, MSTL and MFLES models can be found in the following notebook:
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/modelling/02.SARIMAX.ipynb?flush_cache=true)
 
 **Facebook Prophet**
 
-Prophet is a forecasting tool developed by Facebook that is designed for analyzing time series data with daily observations that display patterns on different time scales. It is robust to missing data and shifts in the trend, and it provides intuitive parameters that are easy to interpret. I used this model to forecast the global sales data and region-level sales data.
+Prophet is a forecasting tool developed by Facebook that is designed for analyzing time series data with daily observations that display patterns on different time scales. It is robust to missing data and shifts in the trend, and it provides intuitive parameters that are easy to interpret. I used this model to forecast the global sales data and region-level sales data.  
 I used this model to forecast the global sales data and region-level sales data.
+
+All the code for the above models can be found in the following notebook:
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/blob/main/notebooks/modelling/03.Prophet.ipynb?flush_cache=true)
 
 #### Feature Engineering
 
@@ -554,14 +682,32 @@ The dataset included discount dates for various stores, and I needed to aggregat
 
 #### Metric
 
-The models were assessed using the Mean Absolute Percentage Error (MAPE), which measures forecasting accuracy by averaging the absolute percentage errors between predicted and actual values. Lower MAPE values indicate better model performance.
-
+The models were assessed using the Mean Absolute Percentage Error (MAPE), which measures forecasting accuracy by averaging the absolute percentage errors between predicted and actual values. Lower MAPE values indicate better model performance.  
 The goal was to achieve a MAPE value below 10%, but the models only reached a MAPE value of approximately 15%.
 
 #### Plots
 
-1. Residuals
-2. Actual vs. Predicted
+**Residuals**
+
+![Residuals](image-17.png)
+
+**Actual vs. Predicted**
+
+![Actual vs Predicted](image-19.png)
+<p class="text-center">Actual vs Predicted Global Sales</p>
+
+#### Performance of different models
+
+| Model | Region MAPE | Global MAPE |
+| --- | --- | --- |
+| Facebook Prophet | 13% - 16%  | 14% |
+| Triple Exponential Smoothing | 17% - 20% | 19% |
+| ARIMA | 17% | 17% |
+| MSTL | 17% | 16% |
+| MFLES | 15% | 18% |
+
+From the above table we can see that the Facebook Prophet model performed the best in terms of MAPE for both regional and global sales forecasting.This may be because Facebook Prophet can can capture multiple seasonalities and also handles exogenous variables well.  
+I believe that performance of MSTL and MFLES could have been improved with more tuning and hyperparameter optimization.
 
 ### Hierarchical Forecasting
 
@@ -597,12 +743,12 @@ about all the trails in a local SQLite database. It also provides a web UI to
 visualize the trails. Using this web UI, we can compare different trails and also
 show which hyperparameters are important.
 
-Following are some screenshots of the Optuna UI:
+Following are some screenshots of the Optuna Dashboard. Notice how the dashboard provides a detailed view of the minimization process, including the best hyperparameters and their corresponding values.
 
-![Optuna Dashboard](./timeline.png)
-<p class="text-center">Optuna Dashboard</p>
+![Optuna Timeline](image-3.png)
+<p class="text-center">Optuna Timeline</p>
 
-![Optuna Hyperparameter Importance](./parameter_importance.png)
+![Param Important](image-23.png)
 <p class="text-center">Hyperparameter Importance</p>
 
 ### MLflow
@@ -614,14 +760,12 @@ track your experiments, models, and hyperparameters when set up correctly. It al
 the metrics, parameters, and artefacts. It also helps you to compare the
 experiments and models. It also helps you to reproduce the results.
 
-Following are some screenshots of the MLflow UI:
+Following are some screenshots of the MLflow UI. Notice how the dashboard provides a detailed view of the experiments, including the metrics, parameters, and artefacts.
 
 ![MLflow Dashboard](./mlflow.png)
 <p class="text-center">MLFlow Dashboard</p>
 
-## Deployment
-
-### Streamlit
+## Deployment using Streamlit
 
 I used Streamlit to deploy the model as a web application. Streamlit is an open-source app framework for Machine Learning and Data Science projects. It allows you to create interactive web applications directly from your Python scripts.
 
@@ -632,18 +776,136 @@ My Streamlit app provides the following functionalities:
 - Store Sales Forecasting
 
 <Alert variant="info">
-Streamlit shuts down the app after some time of inactivity. If you cannot see the app, click on the "Wake Up App" button.
+  Streamlit shuts down the app after some time of inactivity. If you cannot see
+  the app, click on the "Wake Up App" button.
 </Alert>
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sales-forecasting-gn.streamlit.app/)
+<br/>
 
 **Pipeline**
 
-Time series forecasting models like Facebook Prophet needs details of future data like holidays, discount days to predict future sales. Similarly, ML models need the past 30 days data to predict the future sales.
+Time series forecasting models like Facebook Prophet need details of future data like holidays, and discount days to predict future sales. Similarly, ML models need the past 30 days data to predict future sales.
 For predicting store sales, I could have used directly used the cleaned data, but in order to simulate the real-world scenario, I have created a pipeline that takes the raw data, cleans it, and then predicts the sales.
 
 ![Pipeline](./ml_pipeline.png)
 <p class="text-center">ML Prediction Pipeline</p>
+
+Following is the snippet of the code for building the pipeline using scikit-learn and Lightgbm ML algorithm:
+
+<ExpandableSeeMore>
+
+```python
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.pipeline import Pipeline
+
+class FeatureGenerator(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        self.dropped_indices_ = None  # To store the indices of dropped rows
+        self.included_indices_ = None  # To store the indices of included rows
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        result = X.copy()
+        result = result.drop(columns=['ID', 'Orders'], axis=1, errors='ignore')
+        result = result.sort_values(by=['Store_id', 'Date'])
+        # result = result.merge(clusters, on='Store_id', how='left')
+        result['Day'] = result['Date'].dt.day
+        result["Day_of_Week"] = result["Date"].dt.dayofweek
+        result["Month"] = result["Date"].dt.month
+        result["Year"] = result["Date"].dt.year
+        result["Quarter"] = result["Date"].dt.quarter
+        result["Week"] = result["Date"].dt.isocalendar().week
+        result["Week_of_Month"] = result["Date"].dt.day.apply(lambda x: (x-1) // 7 + 1)
+        result["Is_Weekend"] = result["Day_of_Week"].apply(lambda x: 1 if x >= 5 else 0)
+        result["Discount"] = result["Discount"].apply(lambda x: 1 if x == 'Yes' else 0)
+
+        # Create lag features
+        result['Sales_Lag_1'] = result.groupby('Store_id')['Sales'].shift(1)
+        result['Sales_Lag_7'] = result.groupby('Store_id')['Sales'].shift(7)
+        result['Sales_Lag_12'] = result.groupby('Store_id')['Sales'].shift(12)
+        result['Sales_Lag_30'] = result.groupby('Store_id')['Sales'].shift(30)
+
+        # Create moving average features
+        result['Sales_Mean_7'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=7).mean()
+        result['Sales_Mean_12'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=12).mean()
+        result['Sales_Mean_30'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=30).mean()
+
+        # Create moving standard deviation features
+        result['Sales_Std_7'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=7).std()
+        result['Sales_Std_12'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=12).std()
+        result['Sales_Std_30'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=30).std()
+
+        # Create moving min and max features
+        result['Sales_Min_7'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=7).min()
+        result['Sales_Min_12'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=12).min()
+        result['Sales_Min_30'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=30).min()
+
+        result['Sales_Max_7'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=7).max()
+        result['Sales_Max_12'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=12).max()
+        result['Sales_Max_30'] = result.groupby('Store_id')['Sales'].shift(1).rolling(window=30).max()
+
+
+        # Create expanding mean and standard deviation features
+        result['Sales_Expanding_Mean'] = result.groupby('Store_id')['Sales'].shift(1).ewm(alpha=0.9, adjust=False).mean()
+        result['Sales_Expanding_Std'] = result.groupby('Store_id')['Sales'].shift(1).ewm(alpha=0.9, adjust=False).std()
+        result['Sales_Expanding_Sum'] = result.groupby('Store_id')['Sales'].expanding().sum().shift(1).reset_index(level=0, drop=True)
+
+        result = result.drop(columns=["Date","Store_id"], axis=1)
+        # encode cyclical features
+        result['Day_sin'] = np.sin(2 * np.pi * result['Day']/31)
+        result['Day_cos'] = np.cos(2 * np.pi * result['Day']/31)
+
+        result['Day_of_Week_sin'] = np.sin(2 * np.pi * result['Day_of_Week']/6)
+        result['Day_of_Week_cos'] = np.cos(2 * np.pi * result['Day_of_Week']/6)
+
+        result['Month_sin'] = np.sin(2 * np.pi * result['Month']/12)
+        result['Month_cos'] = np.cos(2 * np.pi * result['Month']/12)
+
+        result['Quarter_sin'] = np.sin(2 * np.pi * result['Quarter']/4)
+        result['Quarter_cos'] = np.cos(2 * np.pi * result['Quarter']/4)
+
+        result['Week_sin'] = np.sin(2 * np.pi * result['Week']/52)
+        result['Week_cos'] = np.cos(2 * np.pi * result['Week']/52)
+
+        result['Week_of_Month_sin'] = np.sin(2 * np.pi * result['Week_of_Month']/5)
+        result['Week_of_Month_cos'] = np.cos(2 * np.pi * result['Week_of_Month']/5)
+
+        # drop original cyclical features
+        result = result.drop(columns=['Day', 'Day_of_Week', 'Month', 'Quarter', 'Week', 'Week_of_Month', 'Year', 'Sales'], axis=1)
+        
+        self.dropped_indices_ = result.index[result.isnull().any(axis=1)].tolist()
+        result = result.dropna()
+        self.included_indices_ = result.index.tolist()
+        
+        return result
+
+
+target_encoder = TargetEncoder()
+df["Store_id_enc"] = target_encoder.fit_transform(df[["Store_id"]], df["Sales"])
+
+pipeline = Pipeline([
+
+    ('feature_generator', FeatureGenerator()),
+    ('categorical_encoder', ColumnTransformer([
+        ('onehot', OneHotEncoder(), ['Store_Type', 'Location_Type', 'Region_Code', 'cluster']),
+    ], remainder='passthrough', verbose_feature_names_out=False)),
+    ('scaler', StandardScaler())
+])
+
+transformed_df = pipeline.fit_transform(df)
+transformed_df = pd.DataFrame(transformed_df, columns=pipeline[1].get_feature_names_out())
+
+# Load the best model from Optuna
+study = optuna.create_study(direction="minimize", storage="sqlite:///optuna.db", study_name="LightGBM", load_if_exists=True)
+lgbm = LGBMRegressor(**study.best_params, n_jobs=-1, random_state=42, num_threads=-1, boosting_type="goss", data_sample_strategy="goss")
+lgbm.fit(transformed_df, df.iloc[pipeline[0].included_indices_]["Sales"])
+
+```
+
+</ExpandableSeeMore>
 
 Following is the notebook that contains the code of the pipeline
 
@@ -655,4 +917,24 @@ The complete code can be found in the GitHub repository below. All the notebooks
 
 [![GitHub](https://img.shields.io/badge/View%20on-GitHub-blue?logo=github)](https://github.com/gautamnaik1994/SalesForecasting_ML_CaseStudy)
 
+One can browse the entire repository on nbviewer by clicking the link below:
+
+[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.org/github/gautamnaik1994/SalesForecasting_ML_CaseStudy/tree/main/notebooks/?flush_cache=true)
+
 ## Conclusion
+
+Through this case study, I have explored various aspects of time series forecasting, and sales forecasting, including exploratory data analysis, hypothesis testing, time series analysis, machine learning modelling, statistical models and deployment. I have gained valuable insights into the factors influencing sales, identified seasonal patterns and trends in the data, and developed predictive models to forecast future sales.
+
+### Learnings and Challenges
+
+The aim of this case study was to demonstrate my expertise in data analysis, machine learning, and deployment, as well as my ability to explain complex technical concepts to a non-technical audience. Throughout this project, I have gained significant insights into sales forecasting and its applications in the retail industry, particularly the importance of feature engineering, model selection, and evaluation metrics.
+
+Initially, I believed that time series forecasting was simply about repeating past data patterns. However, I quickly realized that it is far more complex and distinct from traditional machine learning problems. It requires a deep understanding of the underlying patterns and trends in the data. Feature engineering plays a crucial role in capturing these patterns and enhancing predictive performance.
+
+I previously thought that time series forecasting was limited to ARIMA and Holt-Winters models. I was pleasantly surprised to discover the various machine learning algorithms that can be applied to time series forecasting and the associated challenges. I also learned about Recursive Forecasting, Hierarchical Forecasting, and the critical role of feature engineering in time series forecasting.
+
+This experience has only scratched the surface of time series forecasting, and I am eager to explore more advanced techniques and models in the future, such as implementing Hierarchical Forecasting, Multi-output Forecasting, and utilizing Deep Learning models like LSTMs, GRUs and Transformers for time series forecasting.
+
+## References
+
+[https://prevedere.com/3-real-world-market-demand-forecasting-stories/](https://prevedere.com/3-real-world-market-demand-forecasting-stories/)
