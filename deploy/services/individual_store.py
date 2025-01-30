@@ -39,9 +39,9 @@ def forecast(Store_id, days=60):
         })
         editable_data.loc[editable_data["Date"] ==
                           prediction_date, "Sales"] = prediction
-        prediction_df = pd.DataFrame(predictions)
-        prediction_df["Store_id"] = Store_id
-        prediction_df["Type"] = "Forecasted"
-        train_data_slice["Type"] = "Current"
 
+    prediction_df = pd.DataFrame(predictions)
+    prediction_df["Store_id"] = Store_id
+    prediction_df["Type"] = "Forecasted"
+    train_data_slice["Type"] = "Current"
     return pd.concat([train_data_slice, prediction_df], axis=0)
