@@ -41,7 +41,15 @@ if forecast_btn:
                 'font': {
                     'size': 24
                 }
-            }
+            },
+            legend=dict(
+                orientation="h",
+                yanchor="top",
+                y=1.15,
+                xanchor="right",
+                x=1
+            ),
+            margin=dict(l=0, r=0, t=100, b=0)
         )
         st.plotly_chart(fig)
         st.divider()
